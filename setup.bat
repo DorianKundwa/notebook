@@ -1,14 +1,18 @@
 @echo off
 setlocal
-title CreatorTask Studio Setup
+title CreatorTask Studio Desktop Setup
 
 cd /d "%~dp0"
 
-:: Launch High-End PowerShell Setup Engine
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0setup.ps1"
-
+:: Check Node.js
+where node >nul 2>&1
 if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Node.js was not found on your system!
+    echo Please download and install Node.js (v18+) from https://nodejs.org
     echo.
-    echo Setup encountered an error.
     pause
+    exit /b 1
 )
+
+:: Execute High-End Installer
+node setup.js
