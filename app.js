@@ -748,9 +748,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   function renderBoard() {
     const tasks = app.getFilteredTasks();
 
-    listTodo.innerHTML = "";
-    listInProgress.innerHTML = "";
-    listDone.innerHTML = "";
+    const todoFrag = document.createDocumentFragment();
+    const inProgressFrag = document.createDocumentFragment();
+    const doneFrag = document.createDocumentFragment();
 
     let todoCount = 0;
     let inProgressCount = 0;
@@ -759,16 +759,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     tasks.forEach((task) => {
       const card = createTaskCardElement(task);
       if (task.status === "todo") {
-        listTodo.appendChild(card);
+        todoFrag.appendChild(card);
         todoCount++;
       } else if (task.status === "in-progress") {
-        listInProgress.appendChild(card);
+        inProgressFrag.appendChild(card);
         inProgressCount++;
       } else if (task.status === "done") {
-        listDone.appendChild(card);
+        doneFrag.appendChild(card);
         doneCount++;
       }
     });
+
+    listTodo.innerHTML = "";
+    listInProgress.innerHTML = "";
+    listDone.innerHTML = "";
+
+    listTodo.appendChild(todoFrag);
+    listInProgress.appendChild(inProgressFrag);
+    listDone.appendChild(doneFrag);
 
     countTodo.textContent = todoCount;
     countInProgress.textContent = inProgressCount;
@@ -901,6 +909,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     emptyState.classList.add("hidden");
 
+    const listFrag = document.createDocumentFragment();
+
     tasks.forEach((task) => {
       const row = document.createElement("div");
       row.className = `checklist-item-row ${task.status === "done" ? "completed" : ""}`;
@@ -977,8 +987,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         openEditTaskModal(task.id);
       });
 
-      checklistTasks.appendChild(row);
+      listFrag.appendChild(row);
     });
+
+    checklistTasks.appendChild(listFrag);
   }
 
   function renderAll() {
@@ -1851,7 +1863,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // --- Search and Filters ---
+  // --- Debounced Search and Filters for Maximum Responsiveness ---
+  function debounce(fn, delay = 100) {
+    let timer = null;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
+  const debouncedRender = debounce(() => {
+    renderAll();
+  }, 100);
+
   searchInput.addEventListener("input", (e) => {
     app.searchQuery = e.target.value;
     if (app.searchQuery) {
@@ -1859,7 +1883,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       clearSearchBtn.classList.add("hidden");
     }
-    renderAll();
+    debouncedRender();
   });
 
   clearSearchBtn.addEventListener("click", () => {

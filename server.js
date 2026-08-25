@@ -148,25 +148,36 @@ function ensureStorageReady() {
   }
 }
 
+// In-memory cache for ultra-fast <1ms responses
+let tasksCache = null;
+
 async function readTasksFromDisk() {
+  if (tasksCache !== null) {
+    return tasksCache;
+  }
+
   try {
     ensureStorageReady();
     const data = await fsPromises.readFile(TASKS_FILE, 'utf8');
-    return JSON.parse(data);
+    tasksCache = JSON.parse(data);
+    return tasksCache;
   } catch (err) {
     console.error('[DB Read Error]', err);
     if (fs.existsSync(BACKUP_FILE)) {
       try {
         const backupData = await fsPromises.readFile(BACKUP_FILE, 'utf8');
-        return JSON.parse(backupData);
+        tasksCache = JSON.parse(backupData);
+        return tasksCache;
       } catch (_) {}
     }
-    return DEFAULT_STARTER_TASKS;
+    tasksCache = DEFAULT_STARTER_TASKS;
+    return tasksCache;
   }
 }
 
 async function writeTasksAtomically(tasks) {
   ensureStorageReady();
+  tasksCache = tasks; // update in-memory cache instantly
   const jsonData = JSON.stringify(tasks, null, 2);
 
   try {
