@@ -121,15 +121,69 @@ async function runTests() {
     }
   });
 
-  // 6. Fetch task list
-  await test('GET /api/tasks returns task list', async () => {
-    const res = await makeRequest('GET', '/api/tasks');
-    if (res.status !== 200 || !Array.isArray(res.data.tasks)) {
-      throw new Error(`Failed to fetch tasks list`);
+  // 6. Task Creation & Validation
+  let createdTaskId = null;
+  await test('POST /api/tasks creates task with subtasks', async () => {
+    const res = await makeRequest('POST', '/api/tasks', {
+      title: '🎬 Test Debugging Task for Automated Verification',
+      category: 'youtube',
+      priority: 'high',
+      status: 'todo',
+      format: 'longform',
+      description: 'Verifying automated CRUD lifecycle and error recovery.',
+      subtasks: [
+        { id: 'sub-debug-1', text: 'Step 1: Test validation', done: true },
+        { id: 'sub-debug-2', text: 'Step 2: Check persistence', done: false }
+      ]
+    });
+
+    if (res.status !== 201 || !res.data.success || !res.data.task?.id) {
+      throw new Error(`Task creation failed: ${JSON.stringify(res.data)}`);
+    }
+    createdTaskId = res.data.task.id;
+  });
+
+  // 7. Task Validation Error Handling
+  await test('POST /api/tasks rejects empty title with 400 Bad Request', async () => {
+    const res = await makeRequest('POST', '/api/tasks', {
+      title: '   ',
+      category: 'youtube'
+    });
+    if (res.status !== 400 || res.data.success !== false) {
+      throw new Error(`Expected 400 Bad Request, got ${res.status}`);
     }
   });
 
-  // 7. Markdown Export
+  // 8. Task Update
+  await test('PUT /api/tasks/:id updates status and subtasks', async () => {
+    if (!createdTaskId) throw new Error('No task ID available from previous test');
+    const res = await makeRequest('PUT', `/api/tasks/${createdTaskId}`, {
+      status: 'done',
+      title: '🎬 Test Debugging Task (Updated)'
+    });
+    if (res.status !== 200 || !res.data.success || res.data.task.status !== 'done') {
+      throw new Error(`Task update failed: ${JSON.stringify(res.data)}`);
+    }
+  });
+
+  // 9. Fetch & Search Tasks with Defensive Query
+  await test('GET /api/tasks?search=Test returns created test task', async () => {
+    const res = await makeRequest('GET', '/api/tasks?search=Debugging');
+    if (res.status !== 200 || !Array.isArray(res.data.tasks) || res.data.tasks.length === 0) {
+      throw new Error(`Search failed to find test task`);
+    }
+  });
+
+  // 10. Delete Task
+  await test('DELETE /api/tasks/:id removes task from database', async () => {
+    if (!createdTaskId) throw new Error('No task ID available from previous test');
+    const res = await makeRequest('DELETE', `/api/tasks/${createdTaskId}`);
+    if (res.status !== 200 || !res.data.success) {
+      throw new Error(`Task delete failed: ${JSON.stringify(res.data)}`);
+    }
+  });
+
+  // 11. Markdown Export
   await test('GET /api/export/markdown produces valid markdown document', async () => {
     const res = await makeRequest('GET', '/api/export/markdown');
     if (res.status !== 200 || typeof res.data !== 'string' || !res.data.includes('# CreatorTask Studio')) {
@@ -137,7 +191,7 @@ async function runTests() {
     }
   });
 
-  // 8. JSON Export
+  // 12. JSON Export
   await test('GET /api/export/json returns valid JSON array backup', async () => {
     const res = await makeRequest('GET', '/api/export/json');
     if (res.status !== 200 || !Array.isArray(res.data)) {

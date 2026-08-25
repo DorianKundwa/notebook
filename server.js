@@ -228,8 +228,12 @@ async function queryOllama(prompt, options = {}) {
   }
 }
 
-// Helper to extract JSON from LLM output
+// Helper to extract JSON from LLM output (Handles objects, arrays, and markdown blocks)
 function extractJsonFromText(text) {
+  if (!text) throw new Error('Empty response from AI engine.');
+  if (typeof text === 'object') return text;
+  if (typeof text !== 'string') text = String(text);
+
   try {
     return JSON.parse(text);
   } catch (e) {
@@ -240,12 +244,20 @@ function extractJsonFromText(text) {
         return JSON.parse(match[1]);
       } catch (_) {}
     }
-    // Try finding outer { ... } or [ ... ]
+    // Try finding outer { ... }
     const firstBrace = text.indexOf('{');
     const lastBrace = text.lastIndexOf('}');
     if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
       try {
         return JSON.parse(text.substring(firstBrace, lastBrace + 1));
+      } catch (_) {}
+    }
+    // Try finding outer [ ... ]
+    const firstBracket = text.indexOf('[');
+    const lastBracket = text.lastIndexOf(']');
+    if (firstBracket !== -1 && lastBracket !== -1 && lastBracket > firstBracket) {
+      try {
+        return JSON.parse(text.substring(firstBracket, lastBracket + 1));
       } catch (_) {}
     }
     throw new Error('Could not parse valid JSON from AI response.');
@@ -605,10 +617,10 @@ app.get('/api/tasks', async (req, res) => {
     if (search && search.trim() !== '') {
       const q = search.toLowerCase().trim();
       tasks = tasks.filter(t =>
-        t.title.toLowerCase().includes(q) ||
+        (t.title && t.title.toLowerCase().includes(q)) ||
         (t.description && t.description.toLowerCase().includes(q)) ||
-        (t.tags && t.tags.some(tag => tag.toLowerCase().includes(q))) ||
-        (t.subtasks && t.subtasks.some(s => s.text.toLowerCase().includes(q)))
+        (Array.isArray(t.tags) && t.tags.some(tag => tag && String(tag).toLowerCase().includes(q))) ||
+        (Array.isArray(t.subtasks) && t.subtasks.some(s => s && s.text && String(s.text).toLowerCase().includes(q)))
       );
     }
 

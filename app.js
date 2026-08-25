@@ -4,6 +4,17 @@
  * 105+ Viral Vault Import Engine, Dual-Sync REST API, Offline Cache, Focus Timer, Format Presets, and PWA.
  */
 
+// --- Safe HTML Sanitizer ---
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 // --- Production Checklist Templates ---
 const PRODUCTION_PRESETS = {
   longform: [

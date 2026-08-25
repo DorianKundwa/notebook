@@ -1,5 +1,987 @@
 [
   {
+    "id": "task-1787676559431-0-gco7l",
+    "title": "The 7 Stages of Becoming a Mafia Boss",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": [
+      "SmartUpload",
+      "ImportedIdea"
+    ],
+    "description": "Imported from uploaded document \"stages_notes.txt\".",
+    "subtasks": [
+      {
+        "id": "sub-1787676559431-0-1",
+        "text": "Hook, Script & Angle",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-0-2",
+        "text": "Record A-Roll & B-Roll",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-0-3",
+        "text": "Edit & Sound Design",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-0-4",
+        "text": "Design High-CTR Thumbnail",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-0-5",
+        "text": "Publish & Community Post",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559431,
+    "updatedAt": 1787676559431
+  },
+  {
+    "id": "task-1787676559431-1-24fz0",
+    "title": "The 6 Stages of Becoming a Hitman",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": [
+      "SmartUpload",
+      "ImportedIdea"
+    ],
+    "description": "Imported from uploaded document \"stages_notes.txt\".",
+    "subtasks": [
+      {
+        "id": "sub-1787676559431-1-1",
+        "text": "Hook, Script & Angle",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-1-2",
+        "text": "Record A-Roll & B-Roll",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-1-3",
+        "text": "Edit & Sound Design",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-1-4",
+        "text": "Design High-CTR Thumbnail",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-1-5",
+        "text": "Publish & Community Post",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559432,
+    "updatedAt": 1787676559431
+  },
+  {
+    "id": "task-1787676559431-2-1ziam",
+    "title": "The 8 Stages of Becoming a Cult Leader",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": [
+      "SmartUpload",
+      "ImportedIdea"
+    ],
+    "description": "Imported from uploaded document \"stages_notes.txt\".",
+    "subtasks": [
+      {
+        "id": "sub-1787676559431-2-1",
+        "text": "Hook, Script & Angle",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-2-2",
+        "text": "Record A-Roll & B-Roll",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-2-3",
+        "text": "Edit & Sound Design",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-2-4",
+        "text": "Design High-CTR Thumbnail",
+        "done": false
+      },
+      {
+        "id": "sub-1787676559431-2-5",
+        "text": "Publish & Community Post",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559433,
+    "updatedAt": 1787676559431
+  },
+  {
+    "id": "vault-task-1787676559344-0-mtx1u",
+    "title": "The 7 Stages of Becoming a Mafia Boss",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "StagesOf",
+      "Crime",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559344-0-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-0-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-0-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-0-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-0-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-0-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-0-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-0-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559344,
+    "updatedAt": 1787676559344
+  },
+  {
+    "id": "vault-task-1787676559344-1-s8od7",
+    "title": "The 7 Stages of Brainwashing",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Psychology",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559344-1-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-1-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-1-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-1-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-1-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-1-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-1-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-1-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559345,
+    "updatedAt": 1787676559344
+  },
+  {
+    "id": "vault-task-1787676559344-2-fefe1",
+    "title": "The 8 Stages of Joining a Cult",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Cults",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559344-2-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-2-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-2-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-2-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-2-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-2-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-2-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-2-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559346,
+    "updatedAt": 1787676559344
+  },
+  {
+    "id": "vault-task-1787676559344-3-zapap",
+    "title": "The 6 Stages of Becoming a Hitman",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "StagesOf",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559344-3-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-3-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-3-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-3-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-3-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-3-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-3-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559344-3-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559347,
+    "updatedAt": 1787676559344
+  },
+  {
+    "id": "vault-task-1787676559344-4-f4buu",
+    "title": "The 7 Stages of Becoming a Dictator",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "History",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559345-4-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-4-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-4-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-4-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-4-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-4-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-4-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-4-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559349,
+    "updatedAt": 1787676559345
+  },
+  {
+    "id": "vault-task-1787676559345-5-6fk1m",
+    "title": "The 8 Stages of Getting Pulled Into a Conspiracy",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Conspiracy",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559345-5-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-5-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-5-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-5-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-5-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-5-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-5-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-5-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559350,
+    "updatedAt": 1787676559345
+  },
+  {
+    "id": "vault-task-1787676559345-6-8zo37",
+    "title": "The Theory That Humans Were Engineered",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Conspiracy",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559345-6-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-6-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-6-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-6-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-6-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-6-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-6-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-6-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559351,
+    "updatedAt": 1787676559345
+  },
+  {
+    "id": "vault-task-1787676559345-7-fqo7t",
+    "title": "The Conspiracy Theory That Predicted the Future",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Conspiracy",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559345-7-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-7-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-7-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-7-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-7-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-7-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-7-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-7-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559352,
+    "updatedAt": 1787676559345
+  },
+  {
+    "id": "vault-task-1787676559345-8-jg0i0",
+    "title": "The 7 Stages of Becoming a Criminal Mastermind",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Crime",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559345-8-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-8-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-8-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-8-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-8-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-8-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-8-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-8-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559353,
+    "updatedAt": 1787676559345
+  },
+  {
+    "id": "vault-task-1787676559345-9-9ny1b",
+    "title": "The Theory That Time Travelers Are Among Us",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Mysteries",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559345-9-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-9-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559345-9-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-9-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-9-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-9-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-9-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-9-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559355,
+    "updatedAt": 1787676559346
+  },
+  {
+    "id": "vault-task-1787676559346-10-dl2vm",
+    "title": "The 7 Stages of Losing Your Identity",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Psychology",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559346-10-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-10-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-10-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-10-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-10-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-10-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-10-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-10-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559356,
+    "updatedAt": 1787676559346
+  },
+  {
+    "id": "vault-task-1787676559346-11-1m22i",
+    "title": "The Secret Society That Allegedly Controls Everything",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "SecretSociety",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559346-11-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-11-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-11-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-11-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-11-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-11-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-11-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-11-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559357,
+    "updatedAt": 1787676559346
+  },
+  {
+    "id": "vault-task-1787676559346-12-06oa1",
+    "title": "The 7 Stages of Becoming a Cult Leader",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Cults",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559346-12-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-12-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-12-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-12-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-12-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-12-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-12-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-12-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559358,
+    "updatedAt": 1787676559346
+  },
+  {
+    "id": "vault-task-1787676559346-13-sk5su",
+    "title": "The Dark Conspiracy Behind Area 51",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Area51",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559346-13-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-13-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-13-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-13-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-13-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-13-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-13-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-13-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559359,
+    "updatedAt": 1787676559346
+  },
+  {
+    "id": "vault-task-1787676559346-14-3axnf",
+    "title": "The 7 Stages of Becoming a Prison Gang Leader",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": [
+      "Crime",
+      "TopCTR"
+    ],
+    "description": "Curated high-CTR video concept from the Viral YouTube Vault.",
+    "subtasks": [
+      {
+        "id": "sub-v-1787676559346-14-1",
+        "text": "Hook, Target Audience & Script Outline",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-14-2",
+        "text": "Record 4K A-Roll (Talking Head / Intro)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-14-3",
+        "text": "Capture B-Roll, Screen Recordings & Assets",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-14-4",
+        "text": "Rough Cut & Pacing in DaVinci / Premiere",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-14-5",
+        "text": "Sound Design, Kinematic BGM & Sound FX",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-14-6",
+        "text": "Design High-CTR Thumbnail (3 Variations)",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-14-7",
+        "text": "Write High-SEO Title, Description & Tags",
+        "done": false
+      },
+      {
+        "id": "sub-v-1787676559346-14-8",
+        "text": "Publish, Pin Comment & Social Distribution",
+        "done": false
+      }
+    ],
+    "createdAt": 1787676559360,
+    "updatedAt": 1787676559346
+  },
+  {
     "id": "task-1787676270671-0-7lzh2",
     "title": "The 7 Stages of Becoming a Mafia Boss",
     "format": "longform",
