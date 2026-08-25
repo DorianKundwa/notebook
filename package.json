@@ -8,8 +8,46 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "app": "electron .",
-    "setup": "cmd /c setup.bat",
+    "setup": "node setup.js",
+    "icon": "node scripts/generate-icon.js",
+    "build:win": "npm run icon && electron-builder --win nsis",
     "test": "node tests/api.test.js"
+  },
+  "build": {
+    "appId": "com.creatortask.studio",
+    "productName": "CreatorTask Studio",
+    "copyright": "Copyright © 2026 CreatorTask Studio",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "CreatorTask-Studio-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CreatorTask Studio",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico"
+    },
+    "files": [
+      "**/*",
+      "!dist/**/*",
+      "!tests/**/*",
+      "!.system_generated/**/*"
+    ]
   },
   "keywords": [
     "tasks",
@@ -20,6 +58,7 @@
     "productivity",
     "electron",
     "desktop-app",
+    "windows-installer",
     "pwa"
   ],
   "author": "CreatorTask Studio",
@@ -30,6 +69,9 @@
     "express": "^4.21.2"
   },
   "devDependencies": {
-    "electron": "^32.0.0"
+    "electron": "^32.0.0",
+    "electron-builder": "^26.15.3",
+    "png-to-ico": "^3.0.2",
+    "pngjs": "^7.0.0"
   }
 }

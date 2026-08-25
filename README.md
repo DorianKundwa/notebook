@@ -6,29 +6,34 @@
   <img src="assets/icon.svg" width="100" height="100" alt="CreatorTask Studio Notebook Logo" />
 </p>
 
+![Windows Setup EXE](https://img.shields.io/badge/Windows-Setup.EXE%20Ready-0078D6?style=flat&logo=windows&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=flat&logo=node.js&logoColor=white)
 ![Electron](https://img.shields.io/badge/Electron-Desktop%20App-47848F?style=flat&logo=electron&logoColor=white)
 ![Ollama](https://img.shields.io/badge/Ollama-Qwen%202.5%20(3B)-FB542B?style=flat&logo=ollama&logoColor=white)
 ![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8?style=flat&logo=pwa&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-PC%20Setup%20Ready-0078D6?style=flat&logo=windows&logoColor=white)
 
 ---
 
-## 💻 Standalone PC Desktop App & Setup
+## 💻 Standalone Windows Setup `.exe` Installer
 
-### 🚀 1-Click Windows Setup (`setup.bat`)
-Double-click **`setup.bat`** (or run `npm run setup`):
-1. ✅ Checks Node.js runtime environment.
-2. 📦 Automatically installs all dependencies & desktop libraries.
-3. 🤖 Verifies local Ollama (`qwen2.5:3b`) connection.
-4. 🖥️ **Creates a Windows Desktop Shortcut** (`CreatorTask Studio.lnk`) with the custom notebook icon!
-5. ⚡ Prompts to launch the desktop application immediately.
+### 📦 1. Pre-Compiled Setup Executable
+The installer is packaged directly in the **`dist/`** directory:
+- **`dist/CreatorTask-Studio-Setup-1.0.0.exe`** (79.1 MB standalone Windows NSIS Setup Installer)
+- Features:
+  - 🖥️ Full standard Windows Installation Wizard
+  - 📂 Custom installation directory picker
+  - ⚡ Automatic Desktop & Start Menu shortcut creation with custom Notebook branding
+  - 🗑️ Clean uninstaller registration in Windows Control Panel / Settings
 
-### 🎬 Launching Desktop App
-- **Option 1**: Double-click the **`CreatorTask Studio`** desktop shortcut.
-- **Option 2**: Run **`launch.bat`**.
-- **Option 3**: Run `npm run app` (starts Electron with internal background server & system tray).
-- **Option 4**: Run `npm start` (starts web server at `http://localhost:3000`).
+### 🔨 2. Building the Installer from Source
+- Run **`build-installer.bat`** (or `npm run build:win`).
+- Automatically compiles the native desktop shell, offline server, and assets into `dist/CreatorTask-Studio-Setup-1.0.0.exe`.
+
+### 🚀 3. Quick Terminal Setup Wizard (`setup.bat`)
+- Double-click **`setup.bat`** to run the interactive Node.js diagnostic installer with ANSI colors and Ollama model validation.
+
+### 🎬 4. Quick Launching
+- Run **`launch.bat`** or `npm run app` to launch the native Electron desktop window directly.
 
 ---
 
@@ -43,7 +48,7 @@ Double-click **`setup.bat`** (or run `npm run setup`):
 - 📁 **Smart Upload & Script Analyzer** (<kbd>U</kbd>):
   - Drag-and-drop `.md`, `.txt`, `.json`, `.csv` notes or paste raw transcripts. Automatically detects numbered topic lists for 1-click bulk import!
 - 🎯 **Kanban Board & Checklist Views**: 3-stage Kanban board (*Ideas & To Do*, *In Production*, *Done & Published*) and a focused Checklist view with inline milestone subtasks.
-- 💾 **Persistent Database & REST API**: Atomic transactional storage in `data/tasks.json` with automatic backup mirroring.
+- 💾 **Persistent Database & REST API**: Atomic transactional storage in `data/tasks.json` with automatic backup mirroring and in-memory sub-millisecond reads.
 - ⏱️ **Focus Pomodoro Timer** (<kbd>T</kbd>): Built-in 25-minute scripting & video editing timer with title bar countdown and celebration cues.
 - 📄 **Markdown & JSON Export**: One-click export of full script outlines and production checklists directly into Markdown (ready for Obsidian / Notion) or JSON backups.
 - ⚡ **Keyboard Shortcuts**: Complete hotkey navigation (`A` for AI Studio, `U` for Smart Upload, `V` for Viral Vault, `N` for new task, `/` for search, `B`/`L` for view switching, `T` for focus timer, `?` for shortcuts guide).
