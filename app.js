@@ -1,7 +1,7 @@
 /**
  * CreatorTask Studio — Task & YouTube Idea Tracker
- * Production Client with Dual-Sync REST API, Offline Cache, Focus Timer,
- * Format Presets, Keyboard Shortcuts, Drag-and-Drop, and PWA Support.
+ * Production Client with local Qwen 2.5 (3B) AI Integration, Smart Upload,
+ * Dual-Sync REST API, Offline Cache, Focus Timer, Format Presets, and PWA.
  */
 
 // --- Production Checklist Templates ---
@@ -147,11 +147,12 @@ class AppManager {
     this.currentFormat = "all";
     this.currentPriority = "all";
     this.searchQuery = "";
-    this.currentView = "board"; // 'board' or 'list'
-    this.listSortBy = "created"; // 'created', 'priority', 'due'
+    this.currentView = "board";
+    this.listSortBy = "created";
     this.draggedTaskId = null;
     this.activeSparkNiche = "tech";
     this.isOnline = true;
+    this.isAiReady = false;
     this.apiBase = window.location.origin;
 
     // Focus Timer State
@@ -161,7 +162,32 @@ class AppManager {
     this.timerIsRunning = false;
   }
 
-  // Dual-Sync: Fetch from Backend API with LocalStorage fallback
+  // Check Local Ollama AI Status
+  async checkAIStatus() {
+    try {
+      const res = await fetch(`${this.apiBase}/api/ai/status`);
+      if (res.ok) {
+        const data = await res.json();
+        this.isAiReady = data.available && data.modelInstalled;
+        const aiIndicator = document.getElementById("ai-indicator");
+        const aiStatusText = document.getElementById("ai-status-text");
+
+        if (this.isAiReady) {
+          aiIndicator.className = "sync-badge ai-badge connected";
+          aiStatusText.textContent = "🤖 Qwen 2.5:3B Ready";
+          aiIndicator.title = "Local Ollama Qwen 2.5:3b model active";
+        } else {
+          aiIndicator.className = "sync-badge offline";
+          aiStatusText.textContent = "🤖 AI Offline";
+          aiIndicator.title = data.error || "Ollama service unreachable";
+        }
+      }
+    } catch (err) {
+      this.isAiReady = false;
+    }
+  }
+
+  // Dual-Sync: Fetch tasks
   async fetchTasks() {
     try {
       const res = await fetch(`${this.apiBase}/api/tasks`, { cache: "no-store" });
@@ -234,7 +260,6 @@ class AppManager {
       updatedAt: Date.now()
     };
 
-    // Optimistic UI update
     this.tasks.unshift(newTask);
     this.saveToLocalCache();
 
@@ -247,7 +272,6 @@ class AppManager {
         });
         if (res.ok) {
           const resData = await res.json();
-          // Update temp ID with server ID if needed
           const idx = this.tasks.findIndex((t) => t.id === tempId);
           if (idx !== -1 && resData.task) {
             this.tasks[idx] = resData.task;
@@ -305,8 +329,6 @@ class AppManager {
     if (task) {
       const isDone = task.status === "done";
       const nextStatus = isDone ? "todo" : "done";
-
-      // If completing, check all subtasks
       const updatedSubtasks = task.subtasks
         ? task.subtasks.map((s) => ({ ...s, done: !isDone ? true : s.done }))
         : [];
@@ -365,22 +387,18 @@ class AppManager {
         console.warn("Error resetting sample on server:", err);
       }
     }
-    // Fallback to local reset
     await this.fetchTasks();
     return this.tasks;
   }
 
   getFilteredTasks() {
     return this.tasks.filter((task) => {
-      // Format filter
       if (this.currentFormat !== "all" && (task.format || "longform") !== this.currentFormat) {
         return false;
       }
-      // Priority filter
       if (this.currentPriority !== "all" && task.priority !== this.currentPriority) {
         return false;
       }
-      // Search query
       if (this.searchQuery.trim() !== "") {
         const q = this.searchQuery.toLowerCase();
         const matchTitle = task.title.toLowerCase().includes(q);
@@ -492,7 +510,7 @@ function showToast(message, type = "info") {
   const toast = document.createElement("div");
   toast.className = `toast ${type}`;
   toast.innerHTML = `
-    <span>${type === "success" ? "✅" : type === "info" ? "⚡" : "💡"}</span>
+    <span>${type === "success" ? "✅" : type === "ai" ? "🤖" : "⚡"}</span>
     <span>${message}</span>
   `;
   container.appendChild(toast);
@@ -501,19 +519,16 @@ function showToast(message, type = "info") {
     toast.style.opacity = "0";
     toast.style.transform = "translateY(10px)";
     setTimeout(() => toast.remove(), 300);
-  }, 3200);
+  }, 3400);
 }
 
 // --- Main Application Lifecycle ---
 document.addEventListener("DOMContentLoaded", async () => {
   const app = new AppManager();
 
-  // Register PWA Service Worker if supported
+  // Register PWA Service Worker
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .then(() => console.log("PWA Service Worker active"))
-      .catch((err) => console.log("SW register failed:", err));
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
   }
 
   // DOM Elements
@@ -555,6 +570,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const selectPresetTemplate = document.getElementById("select-preset-template");
   const btnAddSubtaskRow = document.getElementById("btn-add-subtask-row");
   const subtasksContainer = document.getElementById("subtasks-container");
+  const btnAiEnhanceTask = document.getElementById("btn-ai-enhance-task");
+  const aiEnhanceBtnText = document.getElementById("ai-enhance-btn-text");
 
   // Form Fields
   const taskIdInput = document.getElementById("task-id");
@@ -567,19 +584,44 @@ document.addEventListener("DOMContentLoaded", async () => {
   const taskTagsInput = document.getElementById("task-tags");
   const taskDescInput = document.getElementById("task-desc");
 
-  // Idea Spark Modal Elements
+  // AI Studio Modal Elements
+  const modalAiStudio = document.getElementById("modal-ai-studio");
+  const btnOpenAiStudio = document.getElementById("btn-open-ai-studio");
+  const btnCloseAiStudio = document.getElementById("btn-close-ai-studio");
+  const aiTopicInput = document.getElementById("ai-topic-input");
+  const aiNicheSelect = document.getElementById("ai-niche-select");
+  const aiFormatSelect = document.getElementById("ai-format-select");
+  const btnGenerateAiIdeas = document.getElementById("btn-generate-ai-ideas");
+  const aiIdeasResults = document.getElementById("ai-ideas-results");
+
+  // Smart Upload Modal Elements
+  const modalSmartUpload = document.getElementById("modal-smart-upload");
+  const btnOpenSmartUpload = document.getElementById("btn-open-smart-upload");
+  const btnCloseSmartUpload = document.getElementById("btn-close-smart-upload");
+  const smartDropzone = document.getElementById("smart-dropzone");
+  const smartFileInput = document.getElementById("smart-file-input");
+  const btnBrowseFile = document.getElementById("btn-browse-file");
+  const smartRawText = document.getElementById("smart-raw-text");
+  const btnProcessSmartUpload = document.getElementById("btn-process-smart-upload");
+  const smartAnalysisPreview = document.getElementById("smart-analysis-preview");
+  const smartPreviewTitle = document.getElementById("smart-preview-title");
+  const smartPreviewFormat = document.getElementById("smart-preview-format");
+  const smartPreviewSummary = document.getElementById("smart-preview-summary");
+  const smartPreviewMilestones = document.getElementById("smart-preview-milestones");
+  const btnAcceptSmartTask = document.getElementById("btn-accept-smart-task");
+  let stagedSmartTask = null;
+
+  // Sparks & Shortcuts Modals
   const modalSpark = document.getElementById("modal-spark");
   const btnQuickIdea = document.getElementById("btn-quick-idea");
   const btnCloseSpark = document.getElementById("btn-close-spark");
   const sparkNicheTabs = document.getElementById("spark-niche-tabs");
   const sparkCardsContainer = document.getElementById("spark-cards-container");
-
-  // Shortcuts Modal
   const modalShortcuts = document.getElementById("modal-shortcuts");
   const btnOpenShortcuts = document.getElementById("btn-open-shortcuts");
   const btnCloseShortcuts = document.getElementById("btn-close-shortcuts");
 
-  // Focus Timer Bar Elements
+  // Focus Timer Elements
   const focusTimerBar = document.getElementById("focus-timer-bar");
   const btnFocusTimerTrigger = document.getElementById("btn-focus-timer-trigger");
   const timerDigits = document.getElementById("timer-digits");
@@ -587,7 +629,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnTimerReset = document.getElementById("btn-timer-reset");
   const btnTimerClose = document.getElementById("btn-timer-close");
 
-  // Header & Footer Actions
+  // Footer Actions
   const btnClearCompleted = document.getElementById("btn-clear-completed");
   const btnExportMarkdown = document.getElementById("btn-export-markdown");
   const btnExportData = document.getElementById("btn-export-data");
@@ -738,7 +780,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       </div>
     `;
 
-    // Checkbox toggle listener
     const checkbox = card.querySelector(".task-status-toggle");
     checkbox.addEventListener("click", async (e) => {
       e.stopPropagation();
@@ -750,12 +791,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       renderAll();
     });
 
-    // Card click opens edit modal
     card.addEventListener("click", () => {
       openEditTaskModal(task.id);
     });
 
-    // Drag and Drop Events
     card.addEventListener("dragstart", (e) => {
       app.draggedTaskId = task.id;
       card.classList.add("dragging");
@@ -842,7 +881,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       `;
 
-      // Checkbox main toggle
       const mainCheckbox = row.querySelector(".task-status-toggle");
       mainCheckbox.addEventListener("click", async (e) => {
         e.stopPropagation();
@@ -854,7 +892,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderAll();
       });
 
-      // Inline subtasks toggle
       row.querySelectorAll(".inline-sub-toggle").forEach((subBox) => {
         subBox.addEventListener("click", async (e) => {
           e.stopPropagation();
@@ -990,7 +1027,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     subtasksContainer.appendChild(row);
   }
 
-  // Preset Template Dropdown Selector
   selectPresetTemplate.addEventListener("change", (e) => {
     const presetKey = e.target.value;
     if (presetKey && PRODUCTION_PRESETS[presetKey]) {
@@ -1002,6 +1038,61 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   btnAddSubtaskRow.addEventListener("click", () => {
     addSubtaskRowInput("");
+  });
+
+  // --- AI In-Modal Enhance Trigger (Qwen 2.5:3b) ---
+  btnAiEnhanceTask.addEventListener("click", async () => {
+    const title = taskTitleInput.value.trim();
+    if (!title) {
+      showToast("Please enter a basic title/topic to enhance with AI!", "info");
+      taskTitleInput.focus();
+      return;
+    }
+
+    aiEnhanceBtnText.textContent = "Enhancing with Qwen 2.5...";
+    btnAiEnhanceTask.disabled = true;
+
+    try {
+      const res = await fetch(`${app.apiBase}/api/ai/enhance`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          description: taskDescInput.value,
+          category: taskCategoryInput.value,
+          format: taskFormatInput.value
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const enh = data.enhanced;
+        if (enh) {
+          if (enh.optimizedTitle) taskTitleInput.value = enh.optimizedTitle;
+          if (enh.enhancedDescription) {
+            taskDescInput.value = `${enh.enhancedDescription}\n\n🎬 15-Sec Hook:\n${enh.hook || ""}`;
+          }
+          if (enh.tags && Array.isArray(enh.tags)) {
+            taskTagsInput.value = enh.tags.join(", ");
+          }
+          if (enh.priority) taskPriorityInput.value = enh.priority;
+
+          if (enh.recommendedSubtasks && Array.isArray(enh.recommendedSubtasks)) {
+            subtasksContainer.innerHTML = "";
+            enh.recommendedSubtasks.forEach((step) => addSubtaskRowInput(step));
+          }
+          triggerCelebration();
+          showToast("Enhanced with Qwen 2.5 AI!", "ai");
+        }
+      } else {
+        showToast("AI enhancement failed. Verify Ollama is running.", "info");
+      }
+    } catch (err) {
+      showToast("Could not connect to local Qwen 2.5 AI.", "info");
+    } finally {
+      aiEnhanceBtnText.textContent = "Enhance with AI";
+      btnAiEnhanceTask.disabled = false;
+    }
   });
 
   // --- Modal Form Submit ---
@@ -1078,7 +1169,250 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // --- YouTube Idea Sparks Modal Logic ---
+  // --- AI Video Brainstorming Studio Modal (Qwen 2.5:3b) ---
+  function openAiStudio() {
+    modalAiStudio.classList.remove("hidden");
+    aiTopicInput.focus();
+  }
+
+  function closeAiStudio() {
+    modalAiStudio.classList.add("hidden");
+  }
+
+  btnOpenAiStudio.addEventListener("click", openAiStudio);
+  btnCloseAiStudio.addEventListener("click", closeAiStudio);
+  modalAiStudio.addEventListener("click", (e) => {
+    if (e.target === modalAiStudio) closeAiStudio();
+  });
+
+  btnGenerateAiIdeas.addEventListener("click", async () => {
+    const topic = aiTopicInput.value.trim();
+    const niche = aiNicheSelect.value;
+    const format = aiFormatSelect.value;
+
+    aiIdeasResults.innerHTML = `
+      <div class="ai-placeholder-msg">
+        <div class="timer-pulse-dot" style="margin: 0 auto 1rem auto; width: 16px; height: 16px;"></div>
+        <p>🧠 <strong>Qwen 2.5 (3B) is brainstorming viral concepts...</strong></p>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem">Analyzing retention hooks, CTR patterns, and production milestones</p>
+      </div>
+    `;
+    btnGenerateAiIdeas.disabled = true;
+
+    try {
+      const res = await fetch(`${app.apiBase}/api/ai/brainstorm`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic, niche, format, count: 3 })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const ideas = data.ideas || [];
+        renderAiStudioResults(ideas);
+        showToast("Generated 3 video concepts with Qwen 2.5!", "ai");
+      } else {
+        aiIdeasResults.innerHTML = `
+          <div class="ai-placeholder-msg">
+            <p>⚠️ AI generation error. Please check if Ollama is running.</p>
+          </div>
+        `;
+      }
+    } catch (err) {
+      aiIdeasResults.innerHTML = `
+        <div class="ai-placeholder-msg">
+          <p>⚠️ Could not connect to local Ollama (qwen2.5:3b).</p>
+        </div>
+      `;
+    } finally {
+      btnGenerateAiIdeas.disabled = false;
+    }
+  });
+
+  function renderAiStudioResults(ideas) {
+    if (!ideas || ideas.length === 0) {
+      aiIdeasResults.innerHTML = `<div class="ai-placeholder-msg"><p>No ideas returned. Try adjusting your prompt.</p></div>`;
+      return;
+    }
+
+    aiIdeasResults.innerHTML = ideas
+      .map(
+        (idea, idx) => `
+      <div class="ai-generated-card" data-idx="${idx}">
+        <div>
+          <div class="badge-row" style="margin-bottom: 0.5rem">
+            ${getFormatBadge(idea.format || "longform")}
+            <span class="badge badge-priority-urgent">🔥 Viral Concept</span>
+          </div>
+          <h3 class="ai-card-title">${escapeHtml(idea.title)}</h3>
+          <p class="ai-card-hook" style="margin-top: 0.5rem">🎯 <strong>Hook:</strong> ${escapeHtml(idea.hook || "")}</p>
+          ${idea.thumbnailIdea ? `<div class="ai-card-thumbnail-box" style="margin-top: 0.5rem">🎨 <strong>Thumbnail Concept:</strong> ${escapeHtml(idea.thumbnailIdea)}</div>` : ""}
+          <div class="ai-card-subtasks-preview" style="margin-top: 0.65rem">
+            <strong>📋 Milestones (${(idea.subtasks || []).length}):</strong>
+            ${(idea.subtasks || []).slice(0, 3).map((s) => `<span>• ${escapeHtml(s)}</span>`).join("")}
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full-width use-ai-idea-btn" style="margin-top: 0.75rem">
+          ✨ Use This Concept
+        </button>
+      </div>
+    `
+      )
+      .join("");
+
+    aiIdeasResults.querySelectorAll(".ai-generated-card").forEach((card) => {
+      card.querySelector(".use-ai-idea-btn").addEventListener("click", () => {
+        const idx = parseInt(card.dataset.idx, 10);
+        const selected = ideas[idx];
+        if (selected) {
+          closeAiStudio();
+          openAddTaskModal("todo");
+          taskTitleInput.value = selected.title;
+          taskFormatInput.value = selected.format || "longform";
+          taskCategoryInput.value = selected.category || "youtube";
+          taskPriorityInput.value = selected.priority || "high";
+          taskTagsInput.value = (selected.tags || []).join(", ");
+          taskDescInput.value = `${selected.description || ""}\n\n🎯 15-Sec Hook:\n${selected.hook || ""}\n\n🎨 Thumbnail Concept:\n${selected.thumbnailIdea || ""}`;
+
+          subtasksContainer.innerHTML = "";
+          (selected.subtasks || []).forEach((step) => addSubtaskRowInput(step));
+          showToast("AI idea loaded into task creator!", "success");
+        }
+      });
+    });
+  }
+
+  // --- Smart Upload & Script Analyzer Logic ---
+  function openSmartUpload() {
+    smartAnalysisPreview.classList.add("hidden");
+    smartRawText.value = "";
+    stagedSmartTask = null;
+    modalSmartUpload.classList.remove("hidden");
+  }
+
+  function closeSmartUpload() {
+    modalSmartUpload.classList.add("hidden");
+  }
+
+  btnOpenSmartUpload.addEventListener("click", openSmartUpload);
+  btnCloseSmartUpload.addEventListener("click", closeSmartUpload);
+  modalSmartUpload.addEventListener("click", (e) => {
+    if (e.target === modalSmartUpload) closeSmartUpload();
+  });
+
+  btnBrowseFile.addEventListener("click", () => {
+    smartFileInput.click();
+  });
+
+  smartFileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) handleSmartFile(file);
+  });
+
+  // Drag and Drop on Dropzone
+  smartDropzone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    smartDropzone.classList.add("drag-active");
+  });
+
+  smartDropzone.addEventListener("dragleave", () => {
+    smartDropzone.classList.remove("drag-active");
+  });
+
+  smartDropzone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    smartDropzone.classList.remove("drag-active");
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleSmartFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  function handleSmartFile(file) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      smartRawText.value = event.target.result;
+      showToast(`Loaded "${file.name}" ready for AI analysis!`, "info");
+      processSmartContent(event.target.result, file.name);
+    };
+    reader.readAsText(file);
+  }
+
+  btnProcessSmartUpload.addEventListener("click", () => {
+    const text = smartRawText.value.trim();
+    if (!text) {
+      showToast("Please drop a file or paste text first!", "info");
+      smartRawText.focus();
+      return;
+    }
+    processSmartContent(text, "pasted_script_notes.txt");
+  });
+
+  async function processSmartContent(content, filename) {
+    btnProcessSmartUpload.disabled = true;
+    btnProcessSmartUpload.innerHTML = `<span>⏳ Qwen 2.5 is analyzing document...</span>`;
+
+    try {
+      const res = await fetch(`${app.apiBase}/api/ai/smart-upload`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content, filename })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const extracted = data.extractedTask;
+        if (extracted) {
+          stagedSmartTask = extracted;
+          smartPreviewTitle.textContent = extracted.title || "Extracted Video Concept";
+          smartPreviewFormat.textContent = extracted.format || "Long-form";
+          smartPreviewSummary.textContent = extracted.summary || "Summary extracted from document";
+
+          smartPreviewMilestones.innerHTML = (extracted.subtasks || [])
+            .map((s) => `<div>• ${escapeHtml(s)}</div>`)
+            .join("");
+
+          smartAnalysisPreview.classList.remove("hidden");
+          triggerCelebration();
+          showToast("Document analyzed by Qwen 2.5!", "ai");
+        }
+      } else {
+        showToast("Analysis failed. Verify Ollama is running.", "info");
+      }
+    } catch (err) {
+      showToast("Could not connect to Qwen 2.5 AI engine.", "info");
+    } finally {
+      btnProcessSmartUpload.disabled = false;
+      btnProcessSmartUpload.innerHTML = `<span class="ai-spark-icon">✨</span><span>Analyze & Generate Structured Task</span>`;
+    }
+  }
+
+  btnAcceptSmartTask.addEventListener("click", async () => {
+    if (stagedSmartTask) {
+      const subtasks = (stagedSmartTask.subtasks || []).map((text) => ({
+        id: "sub-" + Date.now() + "-" + Math.random().toString(36).substr(2, 4),
+        text,
+        done: false
+      }));
+
+      await app.createTask({
+        title: stagedSmartTask.title || "Uploaded Script Task",
+        format: stagedSmartTask.format || "longform",
+        category: stagedSmartTask.category || "youtube",
+        priority: stagedSmartTask.priority || "high",
+        status: "todo",
+        tags: stagedSmartTask.tags || ["SmartUpload"],
+        description: stagedSmartTask.summary || "",
+        subtasks
+      });
+
+      closeSmartUpload();
+      renderAll();
+      triggerCelebration();
+      showToast("Smart Upload Task added to your board! 🚀", "success");
+    }
+  });
+
+  // --- Static Sparks Catalog Logic ---
   function openSparkModal() {
     renderSparkIdeas(app.activeSparkNiche);
     modalSpark.classList.remove("hidden");
@@ -1218,7 +1552,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     focusTimerBar.classList.add("hidden");
   });
 
-  // --- Keyboard Shortcuts Modal & Listener ---
+  // --- Shortcuts Modal ---
   function openShortcutsModal() {
     modalShortcuts.classList.remove("hidden");
   }
@@ -1235,18 +1569,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Global Keyboard Shortcuts
   window.addEventListener("keydown", (e) => {
-    // Ignore when typing inside input / textarea
     const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName);
 
     if (e.key === "Escape") {
       closeModal();
       closeSparkModal();
+      closeAiStudio();
+      closeSmartUpload();
       closeShortcutsModal();
       return;
     }
 
     if (!isTyping) {
-      if (e.key === "n" || e.key === "N") {
+      if (e.key === "a" || e.key === "A") {
+        e.preventDefault();
+        openAiStudio();
+      } else if (e.key === "u" || e.key === "U") {
+        e.preventDefault();
+        openSmartUpload();
+      } else if (e.key === "n" || e.key === "N") {
         e.preventDefault();
         openAddTaskModal("todo");
       } else if (e.key === "/") {
@@ -1404,7 +1745,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // --- Escape HTML helper ---
   function escapeHtml(str) {
     if (!str) return "";
     return str
@@ -1415,7 +1755,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       .replace(/'/g, "&#039;");
   }
 
-  // --- Initial Data Load ---
+  // --- Initialization ---
   await app.fetchTasks();
+  await app.checkAIStatus();
   renderAll();
 });

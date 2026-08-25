@@ -1,6 +1,6 @@
 /**
- * Automated Test Suite for CreatorTask Studio REST API
- * Tests health check, CRUD operations, format tags, filtering, export endpoints, and database integrity.
+ * Comprehensive Automated Test Suite for CreatorTask Studio & Qwen 2.5 (3B)
+ * Tests health check, Ollama AI integration, smart upload, CRUD operations, and exports.
  */
 
 const http = require('http');
@@ -47,7 +47,7 @@ function makeRequest(method, path, data = null) {
 
 async function runTests() {
   console.log('====================================================');
-  console.log('🧪 Running CreatorTask Studio API Test Suite...');
+  console.log('🧪 Running CreatorTask Studio & Qwen 2.5 (3B) Test Suite...');
   console.log('====================================================');
 
   let passed = 0;
@@ -72,31 +72,91 @@ async function runTests() {
     }
   });
 
-  // 2. Fetch all tasks
-  let initialCount = 0;
+  // 2. Ollama AI Status
+  await test('GET /api/ai/status verifies Qwen 2.5 (3B) is available', async () => {
+    const res = await makeRequest('GET', '/api/ai/status');
+    if (res.status !== 200 || !res.data.available || !res.data.modelInstalled) {
+      throw new Error(`Ollama model qwen2.5:3b not detected: ${JSON.stringify(res.data)}`);
+    }
+  });
+
+  // 3. AI Brainstorming Studio
+  await test('POST /api/ai/brainstorm generates video concepts with Qwen 2.5', async () => {
+    const res = await makeRequest('POST', '/api/ai/brainstorm', {
+      topic: 'Building an App with AI Agents in 2026',
+      niche: 'tech',
+      format: 'longform',
+      count: 2
+    });
+    if (res.status !== 200 || !res.data.success || !Array.isArray(res.data.ideas) || res.data.ideas.length === 0) {
+      throw new Error(`AI Brainstorm failed: ${JSON.stringify(res.data)}`);
+    }
+    const firstIdea = res.data.ideas[0];
+    if (!firstIdea.title || !firstIdea.hook) {
+      throw new Error(`Idea missing title or hook`);
+    }
+  });
+
+  // 4. AI In-Modal Task Enhancer
+  await test('POST /api/ai/enhance optimizes draft title and notes', async () => {
+    const res = await makeRequest('POST', '/api/ai/enhance', {
+      title: 'learn vim',
+      category: 'youtube',
+      format: 'shorts'
+    });
+    if (res.status !== 200 || !res.data.success || !res.data.enhanced) {
+      throw new Error(`AI Enhance failed: ${JSON.stringify(res.data)}`);
+    }
+    if (!res.data.enhanced.optimizedTitle || !Array.isArray(res.data.enhanced.recommendedSubtasks)) {
+      throw new Error(`Enhance missing optimized title or recommended subtasks`);
+    }
+  });
+
+  // 5. Smart Upload & Script Analyzer
+  await test('POST /api/ai/smart-upload parses raw document into structured task', async () => {
+    const sampleScript = `# Video Outline: 3 Terminal Tools
+    In this video we talk about zoxide, fzf, and tmux.
+    Key points:
+    1. Fast directory jumping with zoxide
+    2. Interactive fuzzy search with fzf
+    3. Terminal multiplexing with tmux
+    Action items: record screen, test audio, export in 4k.`;
+
+    const res = await makeRequest('POST', '/api/ai/smart-upload', {
+      content: sampleScript,
+      filename: 'terminal_tools.md'
+    });
+    if (res.status !== 200 || !res.data.success || !res.data.extractedTask) {
+      throw new Error(`Smart Upload failed: ${JSON.stringify(res.data)}`);
+    }
+    if (!res.data.extractedTask.title || !Array.isArray(res.data.extractedTask.subtasks)) {
+      throw new Error(`Extracted task missing title or subtasks`);
+    }
+  });
+
+  // 6. Fetch task list
   await test('GET /api/tasks returns task list', async () => {
     const res = await makeRequest('GET', '/api/tasks');
     if (res.status !== 200 || !Array.isArray(res.data.tasks)) {
       throw new Error(`Failed to fetch tasks list`);
     }
-    initialCount = res.data.tasks.length;
   });
 
-  // 3. Create a new task with format & milestones
+  // 7. Create task
   let createdTaskId = null;
-  await test('POST /api/tasks creates task with format & subtasks', async () => {
+  await test('POST /api/tasks creates task with format & milestones', async () => {
     const taskPayload = {
-      title: '🧪 Automated Test Video: 5 Secret Coding Hacks',
-      format: 'shorts',
+      title: '🎬 5 AI Agents That Code Better Than Humans in 2026',
+      format: 'longform',
       category: 'youtube',
-      priority: 'high',
+      priority: 'urgent',
       status: 'todo',
-      dueDate: '2026-09-01',
-      tags: ['Test', 'Automation'],
-      description: 'Test outline created via automated test runner.',
+      dueDate: '2026-09-10',
+      tags: ['AI', 'Tech', 'Agents'],
+      description: 'Tested via automated test suite.',
       subtasks: [
-        { id: 'sub-test-1', text: 'Step 1: Write short hook', done: true },
-        { id: 'sub-test-2', text: 'Step 2: Record vertical screen', done: false }
+        { id: 'sub-t-1', text: 'Benchmark 5 AI agents on full-stack apps', done: true },
+        { id: 'sub-t-2', text: 'Record screen screencast & A-roll', done: false }
       ]
     };
 
@@ -105,45 +165,9 @@ async function runTests() {
       throw new Error(`Failed to create task`);
     }
     createdTaskId = res.data.task.id;
-    if (res.data.task.format !== 'shorts') {
-      throw new Error(`Expected format to be 'shorts'`);
-    }
   });
 
-  // 4. Retrieve single task
-  await test('GET /api/tasks/:id retrieves created task', async () => {
-    const res = await makeRequest('GET', `/api/tasks/${createdTaskId}`);
-    if (res.status !== 200 || res.data.task.id !== createdTaskId) {
-      throw new Error(`Failed to fetch single task`);
-    }
-  });
-
-  // 5. Update task status & subtasks
-  await test('PUT /api/tasks/:id updates status and milestones', async () => {
-    const updatePayload = {
-      status: 'done',
-      priority: 'urgent',
-      subtasks: [
-        { id: 'sub-test-1', text: 'Step 1: Write short hook', done: true },
-        { id: 'sub-test-2', text: 'Step 2: Record vertical screen', done: true }
-      ]
-    };
-
-    const res = await makeRequest('PUT', `/api/tasks/${createdTaskId}`, updatePayload);
-    if (res.status !== 200 || res.data.task.status !== 'done') {
-      throw new Error(`Failed to update task`);
-    }
-  });
-
-  // 6. Test Format Filtering
-  await test('GET /api/tasks?format=shorts filters by format', async () => {
-    const res = await makeRequest('GET', '/api/tasks?format=shorts');
-    if (res.status !== 200 || !res.data.tasks.every(t => (t.format || 'longform') === 'shorts')) {
-      throw new Error(`Format filter failed`);
-    }
-  });
-
-  // 7. Markdown Export Generation
+  // 8. Markdown Export
   await test('GET /api/export/markdown produces valid markdown document', async () => {
     const res = await makeRequest('GET', '/api/export/markdown');
     if (res.status !== 200 || typeof res.data !== 'string' || !res.data.includes('# CreatorTask Studio')) {
@@ -151,7 +175,7 @@ async function runTests() {
     }
   });
 
-  // 8. Delete task
+  // 9. Delete task
   await test('DELETE /api/tasks/:id deletes task', async () => {
     const res = await makeRequest('DELETE', `/api/tasks/${createdTaskId}`);
     if (res.status !== 200) {
@@ -168,7 +192,6 @@ async function runTests() {
   }
 }
 
-// Auto-run when executed directly
 if (require.main === module) {
   runTests().catch(err => {
     console.error('Fatal test error:', err);

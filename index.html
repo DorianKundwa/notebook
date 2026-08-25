@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CreatorTask Studio — Task & Idea Management for Creators</title>
-  <meta name="description" content="Production-ready task tracker and YouTube video idea organizer with checklists, Kanban boards, REST API sync, and focus timer.">
+  <title>CreatorTask Studio — Task & YouTube Idea Studio (AI Powered)</title>
+  <meta name="description" content="Production-ready task tracker and YouTube video idea organizer with local Qwen 2.5 AI generation, Smart Upload, checklists, and Kanban boards.">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#6366f1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,33 +51,60 @@
               <span class="sync-dot"></span>
               <span id="sync-text">Cloud Synced</span>
             </div>
+            <div id="ai-indicator" class="sync-badge ai-badge connected" title="Local Qwen 2.5 AI Ready">
+              <span class="sync-dot ai-dot"></span>
+              <span id="ai-status-text">🤖 Qwen 2.5 Ready</span>
+            </div>
           </div>
           <p class="brand-subtitle">Plan video ideas, track production stages & check off completed tasks</p>
         </div>
       </div>
 
       <div class="header-actions">
+        <!-- AI Studio Button -->
+        <button id="btn-open-ai-studio" class="btn btn-ai" title="Generate viral video concepts with local Qwen 2.5:3b (Shortcut: A)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+          </svg>
+          AI Studio
+        </button>
+
+        <!-- Smart Upload Button -->
+        <button id="btn-open-smart-upload" class="btn btn-secondary" title="Upload script notes, documents, or transcripts to convert into tasks (Shortcut: U)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          Smart Upload
+        </button>
+
+        <!-- Focus Timer Button -->
         <button id="btn-focus-timer-trigger" class="btn btn-secondary" title="Open 25-minute scriptwriting Pomodoro timer (Shortcut: T)">
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
-          Focus Timer
+          Focus
         </button>
 
-        <button id="btn-quick-idea" class="btn btn-secondary" title="Get inspiration for your next YouTube video">
+        <!-- Quick Idea Sparks -->
+        <button id="btn-quick-idea" class="btn btn-secondary" title="Browse pre-loaded viral sparks catalog (Shortcut: I)">
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
-          Idea Spark
+          Sparks
         </button>
 
+        <!-- Create Task -->
         <button id="btn-open-add-task" class="btn btn-primary" title="Create a new task (Shortcut: N)">
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
-          New Task / Idea
+          New Task
         </button>
       </div>
     </header>
@@ -274,7 +301,7 @@
           </svg>
         </div>
         <h3 class="empty-title">No tasks or video ideas found</h3>
-        <p class="empty-desc">Try clearing your search/filter or create your first exciting idea!</p>
+        <p class="empty-desc">Try clearing your search/filter or use the AI Studio to brainstorm!</p>
         <button id="btn-empty-add" class="btn btn-primary">Create New Idea</button>
       </div>
     </main>
@@ -282,7 +309,7 @@
     <!-- Footer with Helper Actions & Backup -->
     <footer class="app-footer">
       <div class="footer-left">
-        <span class="footer-tip">💡 <strong>Pro-Tip:</strong> Press <kbd class="kbd-badge">?</kbd> for keyboard shortcuts. Press <kbd class="kbd-badge">T</kbd> to launch Pomodoro timer.</span>
+        <span class="footer-tip">💡 <strong>Pro-Tip:</strong> Press <kbd class="kbd-badge">A</kbd> for AI Studio, <kbd class="kbd-badge">U</kbd> for Smart Upload, <kbd class="kbd-badge">?</kbd> for shortcuts.</span>
       </div>
       <div class="footer-right">
         <button id="btn-export-markdown" class="btn-subtle" title="Export all scripts and tasks as Markdown for Notion / Obsidian">Export Markdown</button>
@@ -299,8 +326,17 @@
   <div id="modal-task" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
     <div class="modal-card">
       <div class="modal-header">
-        <h2 id="modal-title" class="modal-heading">Create New Task / Video Idea</h2>
-        <button id="btn-close-modal" class="modal-close" aria-label="Close dialog">✕</button>
+        <div class="modal-header-left">
+          <h2 id="modal-title" class="modal-heading">Create New Task / Video Idea</h2>
+          <span class="modal-subheading">Organize and plan your creator workflow</span>
+        </div>
+        <div class="modal-header-actions">
+          <button type="button" id="btn-ai-enhance-task" class="btn-ai-pill" title="Use Qwen 2.5 to optimize title, script notes, and milestones">
+            <span class="ai-spark-icon">✨</span>
+            <span id="ai-enhance-btn-text">Enhance with AI</span>
+          </button>
+          <button id="btn-close-modal" class="modal-close" aria-label="Close dialog">✕</button>
+        </div>
       </div>
 
       <form id="task-form" class="modal-body">
@@ -407,7 +443,121 @@
     </div>
   </div>
 
-  <!-- MODAL: YouTube Idea Spark Generator -->
+  <!-- MODAL: AI Video Brainstorming Studio (Qwen 2.5:3b) -->
+  <div id="modal-ai-studio" class="modal-overlay hidden" aria-hidden="true" role="dialog">
+    <div class="modal-card modal-ai-card">
+      <div class="modal-header">
+        <div class="spark-header-title">
+          <span class="spark-emoji">🤖</span>
+          <div>
+            <h2 class="modal-heading">AI Video Brainstorming Studio</h2>
+            <p class="modal-subheading">Generate high-retention titles, hooks & production milestones powered by local <strong>Qwen 2.5 (3B)</strong></p>
+          </div>
+        </div>
+        <button id="btn-close-ai-studio" class="modal-close" aria-label="Close dialog">✕</button>
+      </div>
+
+      <div class="ai-studio-prompt-bar">
+        <div class="form-row ai-input-row">
+          <div class="form-group flex-2">
+            <label class="form-label" for="ai-topic-input">Topic, Keyword, or Video Concept</label>
+            <input type="text" id="ai-topic-input" class="form-input" placeholder="e.g. 5 AI Agents That Code Better Than Humans in 2026">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ai-niche-select">Niche</label>
+            <select id="ai-niche-select" class="form-input custom-select">
+              <option value="tech">💻 Tech & Coding</option>
+              <option value="productivity">⚡ Productivity</option>
+              <option value="gaming">🎮 Gaming & Streaming</option>
+              <option value="business">📈 Business & Finance</option>
+              <option value="creative">🎨 Creative & Design</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ai-format-select">Format</label>
+            <select id="ai-format-select" class="form-input custom-select">
+              <option value="longform">🎬 Long-form (10+ min)</option>
+              <option value="shorts">📱 Shorts / Vertical</option>
+              <option value="sponsor">🤝 Sponsored Integration</option>
+              <option value="podcast">🎙️ Podcast Episode</option>
+            </select>
+          </div>
+        </div>
+        <button id="btn-generate-ai-ideas" class="btn btn-ai-submit">
+          <span class="ai-spark-icon">⚡</span>
+          <span>Generate with Qwen 2.5</span>
+        </button>
+      </div>
+
+      <div id="ai-ideas-results" class="ai-results-grid">
+        <div class="ai-placeholder-msg">
+          <p>💡 Enter your topic and click <strong>Generate with Qwen 2.5</strong> to create viral concepts instantly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Smart Upload & Script Analyzer -->
+  <div id="modal-smart-upload" class="modal-overlay hidden" aria-hidden="true" role="dialog">
+    <div class="modal-card modal-smart-card">
+      <div class="modal-header">
+        <div class="spark-header-title">
+          <span class="spark-emoji">📁</span>
+          <div>
+            <h2 class="modal-heading">Smart Upload & Script Analyzer</h2>
+            <p class="modal-subheading">Drop your script draft, transcript, or research notes. Qwen 2.5 will extract action milestones and structure your task!</p>
+          </div>
+        </div>
+        <button id="btn-close-smart-upload" class="modal-close" aria-label="Close dialog">✕</button>
+      </div>
+
+      <div class="smart-upload-body">
+        <!-- Dropzone Area -->
+        <div id="smart-dropzone" class="smart-dropzone">
+          <input type="file" id="smart-file-input" accept=".txt,.md,.json,.csv,.doc,.docx" class="hidden">
+          <div class="dropzone-inner">
+            <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <h3 class="dropzone-title">Drag & Drop Script or Document here</h3>
+            <p class="dropzone-subtitle">Supports <code>.md</code>, <code>.txt</code>, <code>.json</code>, <code>.csv</code> or click to browse</p>
+            <button type="button" id="btn-browse-file" class="btn btn-secondary">Browse Files</button>
+          </div>
+        </div>
+
+        <!-- Or Paste Raw Text -->
+        <div class="paste-text-divider">
+          <span>OR PASTE SCRIPT DRAFT / TRANSCRIPT</span>
+        </div>
+        <div class="form-group">
+          <textarea id="smart-raw-text" class="form-input form-textarea" rows="4" placeholder="Paste your raw script notes, YouTube transcript, or talking points here..."></textarea>
+        </div>
+
+        <button type="button" id="btn-process-smart-upload" class="btn btn-primary btn-full-width">
+          <span class="ai-spark-icon">✨</span>
+          <span>Analyze & Generate Structured Task</span>
+        </button>
+
+        <!-- Live Analysis Feedback View (Hidden initially) -->
+        <div id="smart-analysis-preview" class="smart-preview-card hidden">
+          <div class="preview-header">
+            <h4>Extracted Task Concept</h4>
+            <span class="badge badge-format-longform" id="smart-preview-format">Long-form</span>
+          </div>
+          <h3 id="smart-preview-title" class="preview-task-title">Title</h3>
+          <p id="smart-preview-summary" class="preview-task-desc">Summary</p>
+          <div id="smart-preview-milestones" class="preview-milestones-list"></div>
+          <button type="button" id="btn-accept-smart-task" class="btn btn-primary" style="margin-top: 1rem">
+            ✅ Add to My Tasks Board
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: YouTube Idea Spark Generator (Static catalog) -->
   <div id="modal-spark" class="modal-overlay hidden" aria-hidden="true" role="dialog">
     <div class="modal-card modal-spark-card">
       <div class="modal-header">
@@ -444,6 +594,14 @@
       </div>
       <div class="shortcuts-list-body">
         <div class="shortcut-row">
+          <span class="shortcut-desc">Open AI Brainstorming Studio</span>
+          <kbd class="kbd-badge">A</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Open Smart Upload & Script Analyzer</span>
+          <kbd class="kbd-badge">U</kbd>
+        </div>
+        <div class="shortcut-row">
           <span class="shortcut-desc">Create New Task / Idea</span>
           <kbd class="kbd-badge">N</kbd>
         </div>
@@ -464,7 +622,7 @@
           <kbd class="kbd-badge">T</kbd>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-desc">Open Idea Sparks Generator</span>
+          <span class="shortcut-desc">Open Idea Sparks Catalog</span>
           <kbd class="kbd-badge">I</kbd>
         </div>
         <div class="shortcut-row">

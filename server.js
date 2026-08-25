@@ -1,7 +1,7 @@
 /**
  * CreatorTask Studio — Production Backend REST API Server
  * Fast, resilient Express server with transactional atomic file storage,
- * markdown exports, static asset delivery, and comprehensive error handling.
+ * markdown exports, static asset delivery, and local Ollama Qwen 2.5 (3B) AI integration.
  */
 
 const express = require('express');
@@ -13,6 +13,9 @@ const fsPromises = require('fs').promises;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://127.0.0.1:11434';
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen2.5:3b';
+
 const DATA_DIR = path.join(__dirname, 'data');
 const TASKS_FILE = path.join(DATA_DIR, 'tasks.json');
 const BACKUP_FILE = path.join(DATA_DIR, 'tasks.backup.json');
@@ -20,8 +23,8 @@ const BACKUP_FILE = path.join(DATA_DIR, 'tasks.backup.json');
 // --- Middleware ---
 app.use(cors());
 app.use(compression());
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
 // Serve static frontend files
 app.use(express.static(__dirname, {
@@ -131,7 +134,7 @@ const DEFAULT_STARTER_TASKS = [
   }
 ];
 
-// --- Persistent Storage Engine (Clean Windows-Safe Atomic Storage) ---
+// --- Persistent Storage Engine ---
 function ensureStorageReady() {
   try {
     if (!fs.existsSync(DATA_DIR)) {
@@ -167,13 +170,74 @@ async function writeTasksAtomically(tasks) {
   const jsonData = JSON.stringify(tasks, null, 2);
 
   try {
-    // Write directly to file
     await fsPromises.writeFile(TASKS_FILE, jsonData, 'utf8');
-    // Save backup asynchronously
     fsPromises.writeFile(BACKUP_FILE, jsonData, 'utf8').catch(() => {});
   } catch (err) {
     console.error('[DB Write Error]', err);
     throw err;
+  }
+}
+
+// --- Ollama Qwen 2.5 (3B) Client Engine ---
+async function queryOllama(prompt, options = {}) {
+  const payload = {
+    model: options.model || OLLAMA_MODEL,
+    prompt: prompt,
+    stream: false,
+    format: options.format !== undefined ? options.format : 'json',
+    options: {
+      temperature: options.temperature || 0.7,
+      top_p: options.top_p || 0.9,
+      num_predict: options.num_predict || 700,
+      ...options.extra
+    }
+  };
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 120000); // 120s timeout
+
+  try {
+    const res = await fetch(`${OLLAMA_HOST}/api/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeout);
+    if (!res.ok) {
+      throw new Error(`Ollama returned status ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data.response;
+  } catch (err) {
+    clearTimeout(timeout);
+    throw err;
+  }
+}
+
+// Helper to extract JSON from LLM output
+function extractJsonFromText(text) {
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    // Try regex for ```json ... ```
+    const match = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+    if (match && match[1]) {
+      try {
+        return JSON.parse(match[1]);
+      } catch (_) {}
+    }
+    // Try finding outer { ... } or [ ... ]
+    const firstBrace = text.indexOf('{');
+    const lastBrace = text.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      try {
+        return JSON.parse(text.substring(firstBrace, lastBrace + 1));
+      } catch (_) {}
+    }
+    throw new Error('Could not parse valid JSON from AI response.');
   }
 }
 
@@ -188,6 +252,186 @@ app.get('/api/health', (req, res) => {
     timestamp: Date.now()
   });
 });
+
+// --- AI Endpoints (Powered by Qwen 2.5:3b) ---
+
+// GET /api/ai/status - Check Ollama connection & model availability
+app.get('/api/ai/status', async (req, res) => {
+  try {
+    const checkRes = await fetch(`${OLLAMA_HOST}/api/tags`);
+    if (!checkRes.ok) {
+      return res.json({
+        available: false,
+        error: `Ollama service returned HTTP ${checkRes.status}`
+      });
+    }
+
+    const data = await checkRes.json();
+    const modelFound = (data.models || []).find(m => m.name.startsWith('qwen2.5:3b') || m.name === OLLAMA_MODEL);
+
+    res.json({
+      available: true,
+      model: OLLAMA_MODEL,
+      modelInstalled: !!modelFound,
+      models: data.models ? data.models.map(m => m.name) : []
+    });
+  } catch (err) {
+    res.json({
+      available: false,
+      error: `Could not connect to Ollama at ${OLLAMA_HOST}: ${err.message}`
+    });
+  }
+});
+
+// POST /api/ai/brainstorm - Generate video ideas & outlines with Qwen 2.5
+app.post('/api/ai/brainstorm', async (req, res) => {
+  try {
+    const { topic, niche, format, count } = req.body;
+    const requestedTopic = topic || 'Modern Web Development & AI Tools';
+    const requestedFormat = format || 'longform';
+    const requestedNiche = niche || 'tech';
+    const requestedCount = count || 3;
+
+    const prompt = `You are an elite YouTube creator and content strategist.
+Brainstorm ${requestedCount} viral, high-retention video concepts for the niche "${requestedNiche}" about the topic: "${requestedTopic}".
+Format: "${requestedFormat}" (options: longform, shorts, sponsor, podcast).
+
+You MUST respond strictly with a valid JSON array of objects. Do NOT include markdown commentary outside JSON.
+Each object must have this exact structure:
+[
+  {
+    "title": "Compelling high-CTR title (with emoji)",
+    "format": "${requestedFormat}",
+    "category": "youtube",
+    "priority": "high",
+    "hook": "15-second intro retention hook script",
+    "description": "2-3 paragraphs of script talking points, key demo concepts, and pacing notes",
+    "tags": ["Tag1", "Tag2", "Tag3"],
+    "thumbnailIdea": "Visual description of thumbnail (facial expression, 3D text overlay, contrast colors)",
+    "subtasks": [
+      "Milestone 1",
+      "Milestone 2",
+      "Milestone 3",
+      "Milestone 4",
+      "Milestone 5"
+    ]
+  }
+]`;
+
+    const aiResponse = await queryOllama(prompt, { temperature: 0.75 });
+    const parsedIdeas = extractJsonFromText(aiResponse);
+
+    res.json({
+      success: true,
+      model: OLLAMA_MODEL,
+      ideas: Array.isArray(parsedIdeas) ? parsedIdeas : [parsedIdeas]
+    });
+  } catch (err) {
+    console.error('[AI Brainstorm Error]', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// POST /api/ai/enhance - Enhance existing task title, notes, and milestones
+app.post('/api/ai/enhance', async (req, res) => {
+  try {
+    const { title, description, category, format } = req.body;
+
+    if (!title || title.trim() === '') {
+      return res.status(400).json({ success: false, error: 'Task title is required to enhance.' });
+    }
+
+    const prompt = `You are a professional YouTube producer.
+I have a video task draft:
+Title: "${title}"
+Format: "${format || 'longform'}"
+Category: "${category || 'youtube'}"
+Notes: "${description || ''}"
+
+Please enhance and optimize this into a production-ready video plan.
+You MUST reply strictly with a JSON object in this format (no conversational text):
+{
+  "optimizedTitle": "Catchy, high-CTR improved title with emoji",
+  "hook": "15-second opening retention hook for the video intro",
+  "enhancedDescription": "Detailed structured outline: Key talking points, A-roll segments, B-roll recommendations, and call to action",
+  "tags": ["Tag1", "Tag2", "Tag3", "Tag4"],
+  "priority": "urgent",
+  "recommendedSubtasks": [
+    "Specific milestone 1",
+    "Specific milestone 2",
+    "Specific milestone 3",
+    "Specific milestone 4",
+    "Specific milestone 5",
+    "Specific milestone 6"
+  ]
+}`;
+
+    const aiResponse = await queryOllama(prompt, { temperature: 0.7 });
+    const enhancedData = extractJsonFromText(aiResponse);
+
+    res.json({
+      success: true,
+      model: OLLAMA_MODEL,
+      enhanced: enhancedData
+    });
+  } catch (err) {
+    console.error('[AI Enhance Error]', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// POST /api/ai/smart-upload - Analyze uploaded raw document/script/notes and convert to structured task
+app.post('/api/ai/smart-upload', async (req, res) => {
+  try {
+    const { content, filename } = req.body;
+
+    if (!content || typeof content !== 'string' || content.trim() === '') {
+      return res.status(400).json({ success: false, error: 'File content is empty.' });
+    }
+
+    // Limit text sample to prevent token overflow if huge file
+    const sampleText = content.substring(0, 8000);
+
+    const prompt = `You are an AI assistant for content creators.
+Analyze the following document/script notes (Filename: "${filename || 'uploaded_doc.txt'}"):
+
+--- BEGIN DOCUMENT ---
+${sampleText}
+--- END DOCUMENT ---
+
+Extract the core concept and transform it into a structured video project task with concrete production steps.
+Reply strictly with a JSON object:
+{
+  "title": "Strong title reflecting the content (with emoji)",
+  "format": "longform or shorts or sponsor or podcast",
+  "category": "youtube or script or thumbnail or editing or general",
+  "priority": "high or medium or urgent",
+  "summary": "Key summary and talking points from the document",
+  "tags": ["Tag1", "Tag2", "Tag3"],
+  "subtasks": [
+    "Step 1: ...",
+    "Step 2: ...",
+    "Step 3: ...",
+    "Step 4: ...",
+    "Step 5: ..."
+  ]
+}`;
+
+    const aiResponse = await queryOllama(prompt, { temperature: 0.5 });
+    const parsedTask = extractJsonFromText(aiResponse);
+
+    res.json({
+      success: true,
+      model: OLLAMA_MODEL,
+      extractedTask: parsedTask
+    });
+  } catch (err) {
+    console.error('[AI Smart Upload Error]', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// --- Standard Task CRUD Endpoints ---
 
 // GET /api/tasks - Retrieve all tasks with optional search/filtering
 app.get('/api/tasks', async (req, res) => {
@@ -291,12 +535,11 @@ app.put('/api/tasks/:id', async (req, res) => {
     const updatedTask = {
       ...current,
       ...updates,
-      id: current.id, // Immutable ID
+      id: current.id,
       createdAt: current.createdAt,
       updatedAt: Date.now()
     };
 
-    // If subtasks array is passed, sanitize
     if (updates.subtasks && Array.isArray(updates.subtasks)) {
       updatedTask.subtasks = updates.subtasks;
     }
@@ -405,7 +648,6 @@ app.post('/api/import', async (req, res) => {
       return res.status(400).json({ success: false, error: 'Expected an array of task objects.' });
     }
 
-    // Sanitize and validate items
     const sanitized = importedTasks.map(item => ({
       id: item.id || `task-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
       title: (item.title || 'Untitled Task').trim(),
@@ -439,6 +681,7 @@ app.listen(PORT, () => {
   console.log(`====================================================`);
   console.log(`🚀 CreatorTask Studio Server is running!`);
   console.log(`📡 Local URL: http://localhost:${PORT}`);
+  console.log(`🤖 AI Engine: Ollama (${OLLAMA_MODEL}) at ${OLLAMA_HOST}`);
   console.log(`📁 Persistent Data Store: ${TASKS_FILE}`);
   console.log(`====================================================`);
 });
