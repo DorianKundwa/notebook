@@ -380,13 +380,70 @@ You MUST reply strictly with a JSON object in this format (no conversational tex
   }
 });
 
+// Helper to detect bulleted or numbered topics in text
+function extractTopicListFromText(text) {
+  const lines = text.split(/\r?\n/);
+  const topics = [];
+  const linePattern = /^\s*(?:(?:\d+[\.\)\-:]|\*|\-|\•|🔥|🧠|☠️|👁️|🌎|🚨)\s+)+(.*)$/;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    const match = trimmed.match(linePattern);
+    if (match && match[1]) {
+      const cleanTitle = match[1].replace(/^[#\*\-_\s]+|[#\*\-_\s]+$/g, '').trim();
+      if (cleanTitle.length > 3 && !cleanTitle.toLowerCase().startsWith('stages of') && !cleanTitle.toLowerCase().startsWith('conspiracies') && !cleanTitle.toLowerCase().startsWith('psychological') && !cleanTitle.toLowerCase().startsWith('dark history') && !cleanTitle.toLowerCase().startsWith('mysteries') && !cleanTitle.toLowerCase().startsWith('what if')) {
+        topics.push(cleanTitle);
+      }
+    }
+  }
+  return topics;
+}
+
 // POST /api/ai/smart-upload - Analyze uploaded raw document/script/notes and convert to structured task
 app.post('/api/ai/smart-upload', async (req, res) => {
   try {
-    const { content, filename } = req.body;
+    const { content, filename, bulkImport } = req.body;
 
     if (!content || typeof content !== 'string' || content.trim() === '') {
       return res.status(400).json({ success: false, error: 'File content is empty.' });
+    }
+
+    // Detect individual topic lines from document
+    const detectedTopics = extractTopicListFromText(content);
+
+    // If bulkImport requested directly, convert detected list into tasks
+    if (bulkImport && detectedTopics.length > 0) {
+      const currentTasks = await readTasksFromDisk();
+      const newTasks = detectedTopics.map((title, i) => ({
+        id: `task-${Date.now()}-${i}-${Math.random().toString(36).substr(2, 5)}`,
+        title: title.trim(),
+        format: 'longform',
+        category: 'youtube',
+        priority: 'high',
+        status: 'todo',
+        tags: ['SmartUpload', 'ImportedIdea'],
+        description: `Imported from uploaded document "${filename || 'script_notes.txt'}".`,
+        subtasks: [
+          { id: `sub-${Date.now()}-${i}-1`, text: 'Hook, Script & Angle', done: false },
+          { id: `sub-${Date.now()}-${i}-2`, text: 'Record A-Roll & B-Roll', done: false },
+          { id: `sub-${Date.now()}-${i}-3`, text: 'Edit & Sound Design', done: false },
+          { id: `sub-${Date.now()}-${i}-4`, text: 'Design High-CTR Thumbnail', done: false },
+          { id: `sub-${Date.now()}-${i}-5`, text: 'Publish & Community Post', done: false }
+        ],
+        createdAt: Date.now() + i,
+        updatedAt: Date.now()
+      }));
+
+      const merged = [...newTasks, ...currentTasks];
+      await writeTasksAtomically(merged);
+
+      return res.json({
+        success: true,
+        bulk: true,
+        count: newTasks.length,
+        tasks: merged
+      });
     }
 
     // Limit text sample to prevent token overflow if huge file
@@ -423,10 +480,93 @@ Reply strictly with a JSON object:
     res.json({
       success: true,
       model: OLLAMA_MODEL,
+      detectedTopics: detectedTopics,
       extractedTask: parsedTask
     });
   } catch (err) {
     console.error('[AI Smart Upload Error]', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// --- Viral YouTube Vault Endpoints ---
+
+// GET /api/vault - Get all viral idea packs
+app.get('/api/vault', async (req, res) => {
+  try {
+    const vaultPath = path.join(__dirname, 'data', 'all_viral_ideas.json');
+    if (fs.existsSync(vaultPath)) {
+      const raw = await fsPromises.readFile(vaultPath, 'utf8');
+      return res.json({ success: true, vault: JSON.parse(raw) });
+    }
+    res.status(404).json({ success: false, error: 'Vault dataset not found' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// POST /api/vault/import - Import curated category or all 105 ideas
+app.post('/api/vault/import', async (req, res) => {
+  try {
+    const { categoryKey, mode } = req.body; // mode: 'append' (default) or 'replace'
+    const vaultPath = path.join(__dirname, 'data', 'all_viral_ideas.json');
+    if (!fs.existsSync(vaultPath)) {
+      return res.status(404).json({ success: false, error: 'Vault dataset not found' });
+    }
+
+    const raw = await fsPromises.readFile(vaultPath, 'utf8');
+    const vaultData = JSON.parse(raw);
+    let itemsToImport = [];
+
+    if (!categoryKey || categoryKey === 'all') {
+      Object.values(vaultData.categories).forEach(cat => {
+        itemsToImport.push(...cat.items);
+      });
+    } else if (vaultData.categories[categoryKey]) {
+      itemsToImport = vaultData.categories[categoryKey].items;
+    } else {
+      return res.status(400).json({ success: false, error: 'Invalid category key' });
+    }
+
+    const newTasks = itemsToImport.map((item, i) => ({
+      id: `vault-task-${Date.now()}-${i}-${Math.random().toString(36).substr(2, 5)}`,
+      title: item.title,
+      format: item.format || 'longform',
+      category: item.category || 'youtube',
+      priority: item.priority || (categoryKey === 'top_ctr' ? 'urgent' : 'high'),
+      status: 'todo',
+      tags: item.tags || ['ViralVault'],
+      description: item.description || `Curated high-CTR video concept from the Viral YouTube Vault.`,
+      subtasks: [
+        { id: `sub-v-${Date.now()}-${i}-1`, text: 'Hook, Target Audience & Script Outline', done: false },
+        { id: `sub-v-${Date.now()}-${i}-2`, text: 'Record 4K A-Roll (Talking Head / Intro)', done: false },
+        { id: `sub-v-${Date.now()}-${i}-3`, text: 'Capture B-Roll, Screen Recordings & Assets', done: false },
+        { id: `sub-v-${Date.now()}-${i}-4`, text: 'Rough Cut & Pacing in DaVinci / Premiere', done: false },
+        { id: `sub-v-${Date.now()}-${i}-5`, text: 'Sound Design, Kinematic BGM & Sound FX', done: false },
+        { id: `sub-v-${Date.now()}-${i}-6`, text: 'Design High-CTR Thumbnail (3 Variations)', done: false },
+        { id: `sub-v-${Date.now()}-${i}-7`, text: 'Write High-SEO Title, Description & Tags', done: false },
+        { id: `sub-v-${Date.now()}-${i}-8`, text: 'Publish, Pin Comment & Social Distribution', done: false }
+      ],
+      createdAt: Date.now() + i,
+      updatedAt: Date.now()
+    }));
+
+    let finalTasks;
+    if (mode === 'replace') {
+      finalTasks = newTasks;
+    } else {
+      const currentTasks = await readTasksFromDisk();
+      finalTasks = [...newTasks, ...currentTasks];
+    }
+
+    await writeTasksAtomically(finalTasks);
+    res.json({
+      success: true,
+      importedCount: newTasks.length,
+      totalTasks: finalTasks.length,
+      tasks: finalTasks
+    });
+  } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });

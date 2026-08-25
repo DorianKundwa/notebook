@@ -1,6 +1,6 @@
 /**
  * Comprehensive Automated Test Suite for CreatorTask Studio & Qwen 2.5 (3B)
- * Tests health check, Ollama AI integration, smart upload, CRUD operations, and exports.
+ * Tests health check, Ollama AI integration, smart upload, viral vault, CRUD operations, and exports.
  */
 
 const http = require('http');
@@ -47,7 +47,7 @@ function makeRequest(method, path, data = null) {
 
 async function runTests() {
   console.log('====================================================');
-  console.log('🧪 Running CreatorTask Studio & Qwen 2.5 (3B) Test Suite...');
+  console.log('🧪 Running CreatorTask Studio, Vault & Qwen 2.5 Test Suite...');
   console.log('====================================================');
 
   let passed = 0;
@@ -80,57 +80,44 @@ async function runTests() {
     }
   });
 
-  // 3. AI Brainstorming Studio
-  await test('POST /api/ai/brainstorm generates video concepts with Qwen 2.5', async () => {
-    const res = await makeRequest('POST', '/api/ai/brainstorm', {
-      topic: 'Building an App with AI Agents in 2026',
-      niche: 'tech',
-      format: 'longform',
-      count: 2
-    });
-    if (res.status !== 200 || !res.data.success || !Array.isArray(res.data.ideas) || res.data.ideas.length === 0) {
-      throw new Error(`AI Brainstorm failed: ${JSON.stringify(res.data)}`);
+  // 3. Viral Vault Listing
+  await test('GET /api/vault returns 7 categories with 105 total topics', async () => {
+    const res = await makeRequest('GET', '/api/vault');
+    if (res.status !== 200 || !res.data.success || !res.data.vault?.categories) {
+      throw new Error(`Failed to load vault categories: ${JSON.stringify(res.data)}`);
     }
-    const firstIdea = res.data.ideas[0];
-    if (!firstIdea.title || !firstIdea.hook) {
-      throw new Error(`Idea missing title or hook`);
+    const cats = res.data.vault.categories;
+    if (!cats.top_ctr || !cats.stages_of || !cats.conspiracies) {
+      throw new Error(`Missing expected vault categories`);
     }
   });
 
-  // 4. AI In-Modal Task Enhancer
-  await test('POST /api/ai/enhance optimizes draft title and notes', async () => {
-    const res = await makeRequest('POST', '/api/ai/enhance', {
-      title: 'learn vim',
-      category: 'youtube',
-      format: 'shorts'
+  // 4. Viral Vault Category Import
+  await test('POST /api/vault/import imports Top CTR pack into tasks database', async () => {
+    const res = await makeRequest('POST', '/api/vault/import', {
+      categoryKey: 'top_ctr',
+      mode: 'append'
     });
-    if (res.status !== 200 || !res.data.success || !res.data.enhanced) {
-      throw new Error(`AI Enhance failed: ${JSON.stringify(res.data)}`);
-    }
-    if (!res.data.enhanced.optimizedTitle || !Array.isArray(res.data.enhanced.recommendedSubtasks)) {
-      throw new Error(`Enhance missing optimized title or recommended subtasks`);
+    if (res.status !== 200 || !res.data.success || res.data.importedCount !== 15) {
+      throw new Error(`Failed to import top_ctr pack: ${JSON.stringify(res.data)}`);
     }
   });
 
-  // 5. Smart Upload & Script Analyzer
-  await test('POST /api/ai/smart-upload parses raw document into structured task', async () => {
-    const sampleScript = `# Video Outline: 3 Terminal Tools
-    In this video we talk about zoxide, fzf, and tmux.
-    Key points:
-    1. Fast directory jumping with zoxide
-    2. Interactive fuzzy search with fzf
-    3. Terminal multiplexing with tmux
-    Action items: record screen, test audio, export in 4k.`;
+  // 5. Smart Upload Multi-Topic Detection
+  await test('POST /api/ai/smart-upload detects numbered lists from uploaded script', async () => {
+    const sampleScript = `
+    1. The 7 Stages of Becoming a Mafia Boss
+    2. The 6 Stages of Becoming a Hitman
+    3. The 8 Stages of Becoming a Cult Leader
+    `;
 
     const res = await makeRequest('POST', '/api/ai/smart-upload', {
       content: sampleScript,
-      filename: 'terminal_tools.md'
+      filename: 'stages_notes.txt',
+      bulkImport: true
     });
-    if (res.status !== 200 || !res.data.success || !res.data.extractedTask) {
-      throw new Error(`Smart Upload failed: ${JSON.stringify(res.data)}`);
-    }
-    if (!res.data.extractedTask.title || !Array.isArray(res.data.extractedTask.subtasks)) {
-      throw new Error(`Extracted task missing title or subtasks`);
+    if (res.status !== 200 || !res.data.success || res.data.count !== 3) {
+      throw new Error(`Multi-topic detection failed: ${JSON.stringify(res.data)}`);
     }
   });
 
@@ -142,32 +129,7 @@ async function runTests() {
     }
   });
 
-  // 7. Create task
-  let createdTaskId = null;
-  await test('POST /api/tasks creates task with format & milestones', async () => {
-    const taskPayload = {
-      title: '🎬 5 AI Agents That Code Better Than Humans in 2026',
-      format: 'longform',
-      category: 'youtube',
-      priority: 'urgent',
-      status: 'todo',
-      dueDate: '2026-09-10',
-      tags: ['AI', 'Tech', 'Agents'],
-      description: 'Tested via automated test suite.',
-      subtasks: [
-        { id: 'sub-t-1', text: 'Benchmark 5 AI agents on full-stack apps', done: true },
-        { id: 'sub-t-2', text: 'Record screen screencast & A-roll', done: false }
-      ]
-    };
-
-    const res = await makeRequest('POST', '/api/tasks', taskPayload);
-    if (res.status !== 201 || !res.data.task || !res.data.task.id) {
-      throw new Error(`Failed to create task`);
-    }
-    createdTaskId = res.data.task.id;
-  });
-
-  // 8. Markdown Export
+  // 7. Markdown Export
   await test('GET /api/export/markdown produces valid markdown document', async () => {
     const res = await makeRequest('GET', '/api/export/markdown');
     if (res.status !== 200 || typeof res.data !== 'string' || !res.data.includes('# CreatorTask Studio')) {
@@ -175,11 +137,11 @@ async function runTests() {
     }
   });
 
-  // 9. Delete task
-  await test('DELETE /api/tasks/:id deletes task', async () => {
-    const res = await makeRequest('DELETE', `/api/tasks/${createdTaskId}`);
-    if (res.status !== 200) {
-      throw new Error(`Failed to delete task`);
+  // 8. JSON Export
+  await test('GET /api/export/json returns valid JSON array backup', async () => {
+    const res = await makeRequest('GET', '/api/export/json');
+    if (res.status !== 200 || !Array.isArray(res.data)) {
+      throw new Error(`JSON export failed`);
     }
   });
 

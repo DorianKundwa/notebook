@@ -1,7 +1,7 @@
 /**
  * CreatorTask Studio — Task & YouTube Idea Tracker
  * Production Client with local Qwen 2.5 (3B) AI Integration, Smart Upload,
- * Dual-Sync REST API, Offline Cache, Focus Timer, Format Presets, and PWA.
+ * 105+ Viral Vault Import Engine, Dual-Sync REST API, Offline Cache, Focus Timer, Format Presets, and PWA.
  */
 
 // --- Production Checklist Templates ---
@@ -151,6 +151,8 @@ class AppManager {
     this.listSortBy = "created";
     this.draggedTaskId = null;
     this.activeSparkNiche = "tech";
+    this.activeVaultCategory = "top_ctr";
+    this.vaultData = null;
     this.isOnline = true;
     this.isAiReady = false;
     this.apiBase = window.location.origin;
@@ -185,6 +187,41 @@ class AppManager {
     } catch (err) {
       this.isAiReady = false;
     }
+  }
+
+  // Fetch Vault Data
+  async fetchVaultData() {
+    try {
+      const res = await fetch(`${this.apiBase}/api/vault`);
+      if (res.ok) {
+        const data = await res.json();
+        this.vaultData = data.vault;
+        return this.vaultData;
+      }
+    } catch (e) {
+      console.warn("Failed to fetch vault from server:", e);
+    }
+    return null;
+  }
+
+  // Import from Viral Vault
+  async importVaultCategory(categoryKey = "all", mode = "append") {
+    try {
+      const res = await fetch(`${this.apiBase}/api/vault/import`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ categoryKey, mode })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        this.tasks = data.tasks || [];
+        this.saveToLocalCache();
+        return data;
+      }
+    } catch (e) {
+      console.error("Failed to import vault category:", e);
+    }
+    return null;
   }
 
   // Dual-Sync: Fetch tasks
@@ -436,10 +473,10 @@ class AppManager {
 function triggerCelebration() {
   if (typeof confetti === "function") {
     confetti({
-      particleCount: 80,
-      spread: 75,
-      origin: { y: 0.7 },
-      colors: ["#6366f1", "#a855f7", "#ec4899", "#10b981", "#38bdf8", "#fbbf24"]
+      particleCount: 90,
+      spread: 80,
+      origin: { y: 0.65 },
+      colors: ["#f59e0b", "#f97316", "#6366f1", "#a855f7", "#ec4899", "#10b981", "#38bdf8"]
     });
   } else {
     renderMiniConfetti();
@@ -462,18 +499,17 @@ function renderMiniConfetti() {
   canvas.height = window.innerHeight;
 
   const particles = [];
-  const colors = ["#6366f1", "#a855f7", "#ec4899", "#10b981", "#38bdf8", "#fbbf24"];
+  const colors = ["#f59e0b", "#f97316", "#6366f1", "#a855f7", "#ec4899", "#10b981", "#38bdf8"];
 
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 70; i++) {
     particles.push({
-      x: canvas.width / 2 + (Math.random() - 0.5) * 200,
-      y: canvas.height * 0.7,
-      vx: (Math.random() - 0.5) * 12,
-      vy: -(Math.random() * 12 + 6),
+      x: canvas.width / 2 + (Math.random() - 0.5) * 250,
+      y: canvas.height * 0.65,
+      vx: (Math.random() - 0.5) * 14,
+      vy: -(Math.random() * 14 + 7),
       size: Math.random() * 6 + 4,
       color: colors[Math.floor(Math.random() * colors.length)],
-      alpha: 1,
-      rotation: Math.random() * 360
+      alpha: 1
     });
   }
 
@@ -493,7 +529,7 @@ function renderMiniConfetti() {
     });
 
     frames++;
-    if (frames < 70) {
+    if (frames < 75) {
       requestAnimationFrame(animate);
     } else {
       canvas.remove();
@@ -510,7 +546,7 @@ function showToast(message, type = "info") {
   const toast = document.createElement("div");
   toast.className = `toast ${type}`;
   toast.innerHTML = `
-    <span>${type === "success" ? "✅" : type === "ai" ? "🤖" : "⚡"}</span>
+    <span>${type === "success" ? "✅" : type === "vault" ? "📦" : type === "ai" ? "🤖" : "⚡"}</span>
     <span>${message}</span>
   `;
   container.appendChild(toast);
@@ -519,7 +555,7 @@ function showToast(message, type = "info") {
     toast.style.opacity = "0";
     toast.style.transform = "translateY(10px)";
     setTimeout(() => toast.remove(), 300);
-  }, 3400);
+  }, 3500);
 }
 
 // --- Main Application Lifecycle ---
@@ -594,6 +630,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnGenerateAiIdeas = document.getElementById("btn-generate-ai-ideas");
   const aiIdeasResults = document.getElementById("ai-ideas-results");
 
+  // Viral Vault Modal Elements (105+ Topics)
+  const modalViralVault = document.getElementById("modal-viral-vault");
+  const btnOpenViralVault = document.getElementById("btn-open-viral-vault");
+  const btnCloseViralVault = document.getElementById("btn-close-viral-vault");
+  const vaultCategoryTabs = document.getElementById("vault-category-tabs");
+  const vaultActivePackTitle = document.getElementById("vault-active-pack-title");
+  const vaultActivePackCount = document.getElementById("vault-active-pack-count");
+  const vaultPackBtnCount = document.getElementById("vault-pack-btn-count");
+  const btnImportActivePack = document.getElementById("btn-import-active-pack");
+  const btnImportEntireVault = document.getElementById("btn-import-entire-vault");
+  const vaultItemsContainer = document.getElementById("vault-items-container");
+
   // Smart Upload Modal Elements
   const modalSmartUpload = document.getElementById("modal-smart-upload");
   const btnOpenSmartUpload = document.getElementById("btn-open-smart-upload");
@@ -603,6 +651,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnBrowseFile = document.getElementById("btn-browse-file");
   const smartRawText = document.getElementById("smart-raw-text");
   const btnProcessSmartUpload = document.getElementById("btn-process-smart-upload");
+  const smartBulkDetectedBanner = document.getElementById("smart-bulk-detected-banner");
+  const smartBulkCountBadge = document.getElementById("smart-bulk-count-badge");
+  const smartBulkListPreview = document.getElementById("smart-bulk-list-preview");
+  const btnSmartBulkImport = document.getElementById("btn-smart-bulk-import");
   const smartAnalysisPreview = document.getElementById("smart-analysis-preview");
   const smartPreviewTitle = document.getElementById("smart-preview-title");
   const smartPreviewFormat = document.getElementById("smart-preview-format");
@@ -610,6 +662,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const smartPreviewMilestones = document.getElementById("smart-preview-milestones");
   const btnAcceptSmartTask = document.getElementById("btn-accept-smart-task");
   let stagedSmartTask = null;
+  let stagedSmartText = "";
 
   // Sparks & Shortcuts Modals
   const modalSpark = document.getElementById("modal-spark");
@@ -1169,6 +1222,129 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
+  // --- Viral YouTube Vault Modal Logic (105+ Topics) ---
+  async function openViralVault() {
+    if (!app.vaultData) {
+      await app.fetchVaultData();
+    }
+    renderVaultCategory(app.activeVaultCategory);
+    modalViralVault.classList.remove("hidden");
+  }
+
+  function closeViralVault() {
+    modalViralVault.classList.add("hidden");
+  }
+
+  btnOpenViralVault.addEventListener("click", openViralVault);
+  btnCloseViralVault.addEventListener("click", closeViralVault);
+  modalViralVault.addEventListener("click", (e) => {
+    if (e.target === modalViralVault) closeViralVault();
+  });
+
+  vaultCategoryTabs.querySelectorAll(".spark-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      vaultCategoryTabs.querySelectorAll(".spark-tab").forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      app.activeVaultCategory = tab.dataset.cat;
+      renderVaultCategory(app.activeVaultCategory);
+    });
+  });
+
+  function renderVaultCategory(catKey) {
+    if (!app.vaultData || !app.vaultData.categories) return;
+
+    const cat = app.vaultData.categories[catKey];
+    if (!cat) return;
+
+    vaultActivePackTitle.textContent = cat.name;
+    vaultActivePackCount.textContent = `${cat.count} Ideas`;
+    vaultPackBtnCount.textContent = `${cat.count}`;
+
+    vaultItemsContainer.innerHTML = cat.items
+      .map(
+        (item, idx) => `
+      <div class="vault-item-card">
+        <div>
+          <div class="badge-row" style="margin-bottom: 0.4rem">
+            ${getFormatBadge(item.format || "longform")}
+            <span class="badge badge-priority-${item.priority || "high"}">${item.priority || "high"}</span>
+            ${(item.tags || []).slice(0, 2).map((t) => `<span class="badge badge-category">#${t}</span>`).join("")}
+          </div>
+          <h4 class="vault-item-title">${escapeHtml(item.title)}</h4>
+        </div>
+        <button class="btn-vault-add-single" data-idx="${idx}">
+          ➕ Add to Board
+        </button>
+      </div>
+    `
+      )
+      .join("");
+
+    vaultItemsContainer.querySelectorAll(".btn-vault-add-single").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        const item = cat.items[idx];
+        if (item) {
+          await app.createTask({
+            title: item.title,
+            format: item.format || "longform",
+            category: item.category || "youtube",
+            priority: item.priority || "high",
+            status: "todo",
+            tags: item.tags || ["ViralVault"],
+            description: `Curated high-CTR video concept from ${cat.name}.`,
+            subtasks: PRODUCTION_PRESETS[item.format || "longform"].map((t) => ({
+              id: "sub-v-" + Date.now() + "-" + Math.random().toString(36).substr(2, 4),
+              text: t,
+              done: false
+            }))
+          });
+          btn.textContent = "✅ Added!";
+          btn.disabled = true;
+          renderAll();
+          triggerCelebration();
+          showToast(`Added "${item.title}" to board!`, "vault");
+        }
+      });
+    });
+  }
+
+  // Import Selected Pack
+  btnImportActivePack.addEventListener("click", async () => {
+    btnImportActivePack.disabled = true;
+    btnImportActivePack.textContent = "Importing Pack...";
+
+    const res = await app.importVaultCategory(app.activeVaultCategory, "append");
+    btnImportActivePack.disabled = false;
+    btnImportActivePack.innerHTML = `⚡ Import This Pack (<span id="vault-pack-btn-count">${vaultPackBtnCount.textContent}</span>)`;
+
+    if (res && res.success) {
+      closeViralVault();
+      renderAll();
+      triggerCelebration();
+      showToast(`Imported ${res.importedCount} viral video concepts to your board! 🚀`, "vault");
+    }
+  });
+
+  // Import Entire 105+ Vault
+  btnImportEntireVault.addEventListener("click", async () => {
+    if (confirm("Import all 105+ viral YouTube concepts across all 7 categories into your board?")) {
+      btnImportEntireVault.disabled = true;
+      btnImportEntireVault.textContent = "Importing All 105+ Ideas...";
+
+      const res = await app.importVaultCategory("all", "append");
+      btnImportEntireVault.disabled = false;
+      btnImportEntireVault.textContent = "🚀 Import Entire Vault (105 Ideas)";
+
+      if (res && res.success) {
+        closeViralVault();
+        renderAll();
+        triggerCelebration();
+        showToast(`Imported ALL ${res.importedCount} viral video concepts! 🎉`, "vault");
+      }
+    }
+  });
+
   // --- AI Video Brainstorming Studio Modal (Qwen 2.5:3b) ---
   function openAiStudio() {
     modalAiStudio.classList.remove("hidden");
@@ -1285,8 +1461,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // --- Smart Upload & Script Analyzer Logic ---
   function openSmartUpload() {
     smartAnalysisPreview.classList.add("hidden");
+    smartBulkDetectedBanner.classList.add("hidden");
     smartRawText.value = "";
     stagedSmartTask = null;
+    stagedSmartText = "";
     modalSmartUpload.classList.remove("hidden");
   }
 
@@ -1331,7 +1509,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const reader = new FileReader();
     reader.onload = (event) => {
       smartRawText.value = event.target.result;
-      showToast(`Loaded "${file.name}" ready for AI analysis!`, "info");
+      showToast(`Loaded "${file.name}" ready for analysis!`, "info");
       processSmartContent(event.target.result, file.name);
     };
     reader.readAsText(file);
@@ -1348,6 +1526,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   async function processSmartContent(content, filename) {
+    stagedSmartText = content;
     btnProcessSmartUpload.disabled = true;
     btnProcessSmartUpload.innerHTML = `<span>⏳ Qwen 2.5 is analyzing document...</span>`;
 
@@ -1360,6 +1539,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (res.ok) {
         const data = await res.json();
+
+        // Check if multi-topics were detected in list format
+        if (data.detectedTopics && data.detectedTopics.length > 1) {
+          smartBulkCountBadge.textContent = `${data.detectedTopics.length} Ideas Found`;
+          smartBulkListPreview.innerHTML = data.detectedTopics
+            .map((t) => `<div>• ${escapeHtml(t)}</div>`)
+            .join("");
+          smartBulkDetectedBanner.classList.remove("hidden");
+        } else {
+          smartBulkDetectedBanner.classList.add("hidden");
+        }
+
         const extracted = data.extractedTask;
         if (extracted) {
           stagedSmartTask = extracted;
@@ -1385,6 +1576,35 @@ document.addEventListener("DOMContentLoaded", async () => {
       btnProcessSmartUpload.innerHTML = `<span class="ai-spark-icon">✨</span><span>Analyze & Generate Structured Task</span>`;
     }
   }
+
+  // Bulk Import extracted multi-topics button
+  btnSmartBulkImport.addEventListener("click", async () => {
+    btnSmartBulkImport.disabled = true;
+    btnSmartBulkImport.textContent = "Bulk Importing Tasks...";
+
+    try {
+      const res = await fetch(`${app.apiBase}/api/ai/smart-upload`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: stagedSmartText, filename: "bulk_imported_list.txt", bulkImport: true })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        app.tasks = data.tasks || [];
+        app.saveToLocalCache();
+        closeSmartUpload();
+        renderAll();
+        triggerCelebration();
+        showToast(`Bulk imported ${data.count} separate video tasks to your board! 🚀`, "success");
+      }
+    } catch (e) {
+      showToast("Bulk import failed.", "info");
+    } finally {
+      btnSmartBulkImport.disabled = false;
+      btnSmartBulkImport.textContent = "⚡ Bulk Import All Extracted Video Tasks";
+    }
+  });
 
   btnAcceptSmartTask.addEventListener("click", async () => {
     if (stagedSmartTask) {
@@ -1575,13 +1795,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       closeModal();
       closeSparkModal();
       closeAiStudio();
+      closeViralVault();
       closeSmartUpload();
       closeShortcutsModal();
       return;
     }
 
     if (!isTyping) {
-      if (e.key === "a" || e.key === "A") {
+      if (e.key === "v" || e.key === "V") {
+        e.preventDefault();
+        openViralVault();
+      } else if (e.key === "a" || e.key === "A") {
         e.preventDefault();
         openAiStudio();
       } else if (e.key === "u" || e.key === "U") {
@@ -1758,5 +1982,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // --- Initialization ---
   await app.fetchTasks();
   await app.checkAIStatus();
+  await app.fetchVaultData();
   renderAll();
 });

@@ -1,0 +1,168 @@
+{
+  "categories": {
+    "top_ctr": {
+      "name": "🚨 Strongest 15 for CTR",
+      "icon": "🚨",
+      "count": 15,
+      "items": [
+        { "title": "The 7 Stages of Becoming a Mafia Boss", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["StagesOf", "Crime", "TopCTR"] },
+        { "title": "The 7 Stages of Brainwashing", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Psychology", "TopCTR"] },
+        { "title": "The 8 Stages of Joining a Cult", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Cults", "TopCTR"] },
+        { "title": "The 6 Stages of Becoming a Hitman", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["StagesOf", "TopCTR"] },
+        { "title": "The 7 Stages of Becoming a Dictator", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["History", "TopCTR"] },
+        { "title": "The 8 Stages of Getting Pulled Into a Conspiracy", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Conspiracy", "TopCTR"] },
+        { "title": "The Theory That Humans Were Engineered", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Conspiracy", "TopCTR"] },
+        { "title": "The Conspiracy Theory That Predicted the Future", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Conspiracy", "TopCTR"] },
+        { "title": "The 7 Stages of Becoming a Criminal Mastermind", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Crime", "TopCTR"] },
+        { "title": "The Theory That Time Travelers Are Among Us", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Mysteries", "TopCTR"] },
+        { "title": "The 7 Stages of Losing Your Identity", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Psychology", "TopCTR"] },
+        { "title": "The Secret Society That Allegedly Controls Everything", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["SecretSociety", "TopCTR"] },
+        { "title": "The 7 Stages of Becoming a Cult Leader", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Cults", "TopCTR"] },
+        { "title": "The Dark Conspiracy Behind Area 51", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Area51", "TopCTR"] },
+        { "title": "The 7 Stages of Becoming a Prison Gang Leader", "priority": "urgent", "category": "youtube", "format": "longform", "tags": ["Crime", "TopCTR"] }
+      ]
+    },
+    "stages_of": {
+      "name": "🔥 STAGES OF... (Highly Clickable)",
+      "icon": "🔥",
+      "count": 20,
+      "items": [
+        { "title": "The 7 Stages of Becoming a Mafia Boss", "tags": ["StagesOf", "Crime"] },
+        { "title": "The 6 Stages of Becoming a Hitman", "tags": ["StagesOf", "Crime"] },
+        { "title": "The 8 Stages of Becoming a Cult Leader", "tags": ["StagesOf", "Cults"] },
+        { "title": "The 7 Stages of Becoming a Dictator", "tags": ["StagesOf", "History"] },
+        { "title": "The 6 Stages of Becoming a Billionaire", "tags": ["StagesOf", "Finance"] },
+        { "title": "The 7 Stages of Becoming a Secret Agent", "tags": ["StagesOf", "Espionage"] },
+        { "title": "The 8 Stages of Becoming a Conspiracy Theorist", "tags": ["StagesOf", "Psychology"] },
+        { "title": "The 7 Stages of Joining a Secret Society", "tags": ["StagesOf", "Mystery"] },
+        { "title": "The 6 Stages of Becoming a Criminal Mastermind", "tags": ["StagesOf", "Crime"] },
+        { "title": "The 7 Stages of Becoming a Cybercriminal", "tags": ["StagesOf", "Tech"] },
+        { "title": "The 8 Stages of Becoming a Spy", "tags": ["StagesOf", "Espionage"] },
+        { "title": "The 6 Stages of Becoming a Cult Member", "tags": ["StagesOf", "Cults"] },
+        { "title": "The 7 Stages of Becoming a Prison Gang Leader", "tags": ["StagesOf", "Crime"] },
+        { "title": "The 6 Stages of Becoming a Corrupt Politician", "tags": ["StagesOf", "Politics"] },
+        { "title": "The 7 Stages of Becoming a Propaganda Master", "tags": ["StagesOf", "Media"] },
+        { "title": "The 8 Stages of Getting Pulled Into a Conspiracy", "tags": ["StagesOf", "Psychology"] },
+        { "title": "The 7 Stages of Losing Your Identity in a Cult", "tags": ["StagesOf", "Psychology"] },
+        { "title": "The 6 Stages of Becoming a Fugitive", "tags": ["StagesOf", "Crime"] },
+        { "title": "The 7 Stages of Becoming an Undercover Agent", "tags": ["StagesOf", "Espionage"] },
+        { "title": "The 8 Stages of Becoming a Dictator", "tags": ["StagesOf", "History"] }
+      ]
+    },
+    "conspiracies": {
+      "name": "🕵️ CONSPIRACIES",
+      "icon": "🕵️",
+      "count": 20,
+      "items": [
+        { "title": "The Mandela Effect: Are We Remembering a Different Reality?", "tags": ["Conspiracy", "MandelaEffect"] },
+        { "title": "The Simulation Theory: What If Reality Isn't Real?", "tags": ["Conspiracy", "Simulation"] },
+        { "title": "The Government Experiment That Changed Thousands of Lives", "tags": ["Conspiracy", "History"] },
+        { "title": "The Secret Society That Allegedly Controls Everything", "tags": ["Conspiracy", "SecretSociety"] },
+        { "title": "The Conspiracy Behind the Moon Landing", "tags": ["Conspiracy", "Space"] },
+        { "title": "Why Do So Many People Believe the Earth Is Flat?", "tags": ["Conspiracy", "Science"] },
+        { "title": "The Mystery of the Missing 13th Floor", "tags": ["Conspiracy", "Mystery"] },
+        { "title": "The Dark Conspiracy Behind Area 51", "tags": ["Conspiracy", "Area51"] },
+        { "title": "The Theory That Humans Were Engineered", "tags": ["Conspiracy", "Origin"] },
+        { "title": "The Internet's Strangest Hidden Community", "tags": ["Conspiracy", "DarkWeb"] },
+        { "title": "The Conspiracy Theory That Predicted the Future", "tags": ["Conspiracy", "Predictions"] },
+        { "title": "Why Do Governments Keep Certain Information Secret?", "tags": ["Conspiracy", "Government"] },
+        { "title": "The Theory That Time Travelers Are Among Us", "tags": ["Conspiracy", "TimeTravel"] },
+        { "title": "The Dark Web Mystery Nobody Can Explain", "tags": ["Conspiracy", "DarkWeb"] },
+        { "title": "The Secret Code Hidden in Famous Symbols", "tags": ["Conspiracy", "Symbols"] },
+        { "title": "The Theory That Antarctica Is Hiding Something", "tags": ["Conspiracy", "Antarctica"] },
+        { "title": "The Strange Truth Behind Déjà Vu", "tags": ["Conspiracy", "Psychology"] },
+        { "title": "The Theory That Civilization Is Much Older Than We Think", "tags": ["Conspiracy", "AncientHistory"] },
+        { "title": "The Mysterious Numbers That Keep Appearing Everywhere", "tags": ["Conspiracy", "Numerology"] },
+        { "title": "The Conspiracy That Started With One Photograph", "tags": ["Conspiracy", "PhotoMystery"] }
+      ]
+    },
+    "psychological": {
+      "name": "🧠 PSYCHOLOGICAL / YOU WON'T UNSEE THIS",
+      "icon": "🧠",
+      "count": 15,
+      "items": [
+        { "title": "The 7 Stages of Brainwashing", "tags": ["Psychology", "MindControl"] },
+        { "title": "The 6 Stages of Manipulation", "tags": ["Psychology", "DarkPsychology"] },
+        { "title": "The 7 Stages of Becoming Paranoid", "tags": ["Psychology", "MentalHealth"] },
+        { "title": "The 8 Stages of an Obsession", "tags": ["Psychology", "Behavior"] },
+        { "title": "The 6 Stages of Stockholm Syndrome", "tags": ["Psychology", "Crime"] },
+        { "title": "The 7 Stages of Groupthink", "tags": ["Psychology", "Sociology"] },
+        { "title": "The 8 Stages of Losing Yourself", "tags": ["Psychology", "Identity"] },
+        { "title": "The 7 Stages of a Cult's Recruitment", "tags": ["Psychology", "Cults"] },
+        { "title": "The Psychology Behind Conspiracy Theories", "tags": ["Psychology", "Belief"] },
+        { "title": "How Ordinary People Become Extremists", "tags": ["Psychology", "Extremism"] },
+        { "title": "How Propaganda Changes Your Mind", "tags": ["Psychology", "Media"] },
+        { "title": "Why Smart People Believe Conspiracy Theories", "tags": ["Psychology", "Cognition"] },
+        { "title": "How a Crowd Can Make You Do Things You'd Never Do Alone", "tags": ["Psychology", "MobPsychology"] },
+        { "title": "How Manipulators Slowly Gain Control", "tags": ["Psychology", "Manipulation"] },
+        { "title": "Why Your Brain Invents Memories", "tags": ["Psychology", "Memory"] }
+      ]
+    },
+    "dark_history": {
+      "name": "☠️ DARK HISTORY",
+      "icon": "☠️",
+      "count": 15,
+      "items": [
+        { "title": "The 7 Stages of Becoming a Medieval Assassin", "tags": ["DarkHistory", "Assassins"] },
+        { "title": "The 8 Stages of a Viking Raid", "tags": ["DarkHistory", "Vikings"] },
+        { "title": "The 7 Stages of a Pirate's Life", "tags": ["DarkHistory", "Pirates"] },
+        { "title": "The 6 Stages of Becoming a Samurai", "tags": ["DarkHistory", "Samurai"] },
+        { "title": "The 8 Stages of Surviving a Medieval Prison", "tags": ["DarkHistory", "Medieval"] },
+        { "title": "The 7 Stages of Being a Roman Gladiator", "tags": ["DarkHistory", "Rome"] },
+        { "title": "The 6 Stages of Becoming a Knight", "tags": ["DarkHistory", "Knights"] },
+        { "title": "The 8 Stages of Life Inside a Medieval Castle", "tags": ["DarkHistory", "Medieval"] },
+        { "title": "The 7 Stages of Being Sent to a Witch Trial", "tags": ["DarkHistory", "WitchTrials"] },
+        { "title": "The 6 Stages of Becoming a Victorian Criminal", "tags": ["DarkHistory", "Victorian"] },
+        { "title": "The 7 Stages of Life in Ancient Rome", "tags": ["DarkHistory", "Rome"] },
+        { "title": "The 8 Stages of Surviving the Titanic", "tags": ["DarkHistory", "Titanic"] },
+        { "title": "The 7 Stages of Being a Prisoner of War", "tags": ["DarkHistory", "War"] },
+        { "title": "The 6 Stages of Life During the Black Death", "tags": ["DarkHistory", "Plague"] },
+        { "title": "The 7 Stages of Becoming a Pirate Captain", "tags": ["DarkHistory", "Pirates"] }
+      ]
+    },
+    "mysteries": {
+      "name": "👁️ MYSTERIES",
+      "icon": "👁️",
+      "count": 15,
+      "items": [
+        { "title": "The 7 Creepiest Unsolved Mysteries in History", "tags": ["Mysteries", "Unsolved"] },
+        { "title": "The Person Who Vanished Without a Trace", "tags": ["Mysteries", "Missing"] },
+        { "title": "The Plane That Disappeared With Everyone On Board", "tags": ["Mysteries", "Aviation"] },
+        { "title": "The Village That Suddenly Disappeared", "tags": ["Mysteries", "GhostTown"] },
+        { "title": "The Stranger Who Appeared in a Photograph", "tags": ["Mysteries", "Photography"] },
+        { "title": "The Man Who Claimed He Came From the Future", "tags": ["Mysteries", "TimeTravel"] },
+        { "title": "The Mysterious Signal Scientists Can't Explain", "tags": ["Mysteries", "Space"] },
+        { "title": "The House Nobody Can Explain", "tags": ["Mysteries", "Haunted"] },
+        { "title": "The Case With No Possible Suspect", "tags": ["Mysteries", "TrueCrime"] },
+        { "title": "The Island Nobody Is Allowed to Visit", "tags": ["Mysteries", "Forbidden"] },
+        { "title": "The Unidentified Object Found in the Ocean", "tags": ["Mysteries", "Ocean"] },
+        { "title": "The Code Nobody Has Ever Cracked", "tags": ["Mysteries", "Cryptography"] },
+        { "title": "The Mysterious Death With 100 Different Theories", "tags": ["Mysteries", "Unsolved"] },
+        { "title": "The Disappearance That Became an Internet Obsession", "tags": ["Mysteries", "Internet"] },
+        { "title": "The Photograph That Started a Conspiracy", "tags": ["Mysteries", "Conspiracy"] }
+      ]
+    },
+    "what_if": {
+      "name": "🌎 WHAT IF? (Animated & Speculative)",
+      "icon": "🌎",
+      "count": 15,
+      "items": [
+        { "title": "What If the Internet Suddenly Disappeared?", "tags": ["WhatIf", "Tech"] },
+        { "title": "What If Humans Never Needed Sleep?", "tags": ["WhatIf", "Biology"] },
+        { "title": "What If Earth Stopped Spinning?", "tags": ["WhatIf", "Space"] },
+        { "title": "What If the Moon Disappeared Tonight?", "tags": ["WhatIf", "Space"] },
+        { "title": "What If Dinosaurs Never Went Extinct?", "tags": ["WhatIf", "Evolution"] },
+        { "title": "What If Humans Could Read Minds?", "tags": ["WhatIf", "Psychology"] },
+        { "title": "What If Everyone Became a Genius Overnight?", "tags": ["WhatIf", "Society"] },
+        { "title": "What If Gravity Suddenly Became Half as Strong?", "tags": ["WhatIf", "Physics"] },
+        { "title": "What If Humans Could Live for 500 Years?", "tags": ["WhatIf", "Longevity"] },
+        { "title": "What If Every Country Became One Nation?", "tags": ["WhatIf", "Politics"] },
+        { "title": "What If Nobody Could Lie Ever Again?", "tags": ["WhatIf", "HumanNature"] },
+        { "title": "What If Humans Discovered Aliens Tomorrow?", "tags": ["WhatIf", "SciFi"] },
+        { "title": "What If the Ocean Suddenly Drained?", "tags": ["WhatIf", "Geology"] },
+        { "title": "What If Earth Had Two Moons?", "tags": ["WhatIf", "Astronomy"] },
+        { "title": "What If You Were the Last Human Alive?", "tags": ["WhatIf", "Apocalypse"] }
+      ]
+    }
+  }
+}

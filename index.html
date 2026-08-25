@@ -61,6 +61,12 @@
       </div>
 
       <div class="header-actions">
+        <!-- Viral Vault 100+ Ideas Button -->
+        <button id="btn-open-viral-vault" class="btn btn-primary btn-vault" title="Browse and import 105+ curated high-CTR video topics (Shortcut: V)">
+          <span class="vault-badge-icon">📦</span>
+          <span>Viral Vault (105+)</span>
+        </button>
+
         <!-- AI Studio Button -->
         <button id="btn-open-ai-studio" class="btn btn-ai" title="Generate viral video concepts with local Qwen 2.5:3b (Shortcut: A)">
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -540,6 +546,19 @@
           <span>Analyze & Generate Structured Task</span>
         </button>
 
+        <!-- Multi-Topic Bulk Import Banner (If list detected) -->
+        <div id="smart-bulk-detected-banner" class="smart-preview-card hidden" style="border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 0 20px rgba(245, 158, 11, 0.15)">
+          <div class="preview-header">
+            <h4 style="color: #fbbf24">📦 Multi-Topic List Detected</h4>
+            <span class="badge badge-priority-urgent" id="smart-bulk-count-badge">0 Ideas Found</span>
+          </div>
+          <p id="smart-bulk-msg" class="preview-task-desc">Found multiple video titles in your input. You can import all of them as separate tasks in 1 click!</p>
+          <div id="smart-bulk-list-preview" class="preview-milestones-list" style="max-height: 140px; overflow-y: auto;"></div>
+          <button type="button" id="btn-smart-bulk-import" class="btn btn-primary" style="margin-top: 0.75rem; background: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%)">
+            ⚡ Bulk Import All Extracted Video Tasks
+          </button>
+        </div>
+
         <!-- Live Analysis Feedback View (Hidden initially) -->
         <div id="smart-analysis-preview" class="smart-preview-card hidden">
           <div class="preview-header">
@@ -553,6 +572,54 @@
             ✅ Add to My Tasks Board
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Viral YouTube Vault (105+ High-CTR Concepts) -->
+  <div id="modal-viral-vault" class="modal-overlay hidden" aria-hidden="true" role="dialog">
+    <div class="modal-card modal-vault-card">
+      <div class="modal-header">
+        <div class="spark-header-title">
+          <span class="spark-emoji">📦</span>
+          <div>
+            <h2 class="modal-heading">Viral YouTube Ideas Vault (105 Concepts)</h2>
+            <p class="modal-subheading">Curated high-CTR video topics across 7 viral formats. Import individual packs or the full vault!</p>
+          </div>
+        </div>
+        <button id="btn-close-viral-vault" class="modal-close" aria-label="Close dialog">✕</button>
+      </div>
+
+      <!-- Vault Category Navigation Tabs -->
+      <div class="spark-categories" id="vault-category-tabs">
+        <button class="spark-tab active" data-cat="top_ctr">🚨 Top 15 CTR (15)</button>
+        <button class="spark-tab" data-cat="stages_of">🔥 Stages Of... (20)</button>
+        <button class="spark-tab" data-cat="conspiracies">🕵️ Conspiracies (20)</button>
+        <button class="spark-tab" data-cat="psychological">🧠 Psychological (15)</button>
+        <button class="spark-tab" data-cat="dark_history">☠️ Dark History (15)</button>
+        <button class="spark-tab" data-cat="mysteries">👁️ Mysteries (15)</button>
+        <button class="spark-tab" data-cat="what_if">🌎 What If? (15)</button>
+      </div>
+
+      <!-- Category Action & Import Bar -->
+      <div class="vault-action-bar">
+        <div class="vault-pack-info">
+          <span id="vault-active-pack-title" class="vault-pack-name">🚨 Strongest 15 for CTR</span>
+          <span id="vault-active-pack-count" class="badge badge-category">15 Ideas</span>
+        </div>
+        <div class="vault-action-btns">
+          <button id="btn-import-active-pack" class="btn btn-primary" title="Import current category pack">
+            ⚡ Import This Pack (<span id="vault-pack-btn-count">15</span>)
+          </button>
+          <button id="btn-import-entire-vault" class="btn btn-ai" title="Import all 105 viral concepts into your board">
+            🚀 Import Entire Vault (105 Ideas)
+          </button>
+        </div>
+      </div>
+
+      <!-- Ideas Preview List -->
+      <div id="vault-items-container" class="vault-items-grid">
+        <!-- Injected via JavaScript -->
       </div>
     </div>
   </div>

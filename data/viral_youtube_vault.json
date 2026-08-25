@@ -1,0 +1,332 @@
+[
+  {
+    "id": "vault-top-1",
+    "title": "🔥 The 7 Stages of Becoming a Mafia Boss",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["StagesOf", "Crime", "TopCTR", "DocuStyle"],
+    "description": "Deep-dive documentary examining the psychological and hierarchical progression from street associate to syndicate boss. Analyze loyalty tests, racketeering, omertà, and inevitable downfall.",
+    "subtasks": [
+      { "id": "sub-v1-1", "text": "Research historical syndicate hierarchies (Cosa Nostra, Yakuza)", "done": false },
+      { "id": "sub-v1-2", "text": "Draft 15-second opening retention hook & pacing breakdown", "done": false },
+      { "id": "sub-v1-3", "text": "Gather archival footage, wiretap recordings & cinematic B-roll", "done": false },
+      { "id": "sub-v1-4", "text": "Record voiceover narration with moody audio processing", "done": false },
+      { "id": "sub-v1-5", "text": "Edit documentary style with kinetic graphics & dark sound design", "done": false },
+      { "id": "sub-v1-6", "text": "Design 3 high-contrast thumbnail concepts (Shadowed Boss / Blood Red text)", "done": false },
+      { "id": "sub-v1-7", "text": "Publish, schedule community post & pin discussion comment", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-2",
+    "title": "🧠 The 7 Stages of Brainwashing",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Psychology", "MindControl", "TopCTR"],
+    "description": "Psychological breakdown of thought reform, sensory deprivation, identity assault, and guilt manipulation. Uses historical and modern social experiment case studies.",
+    "subtasks": [
+      { "id": "sub-v2-1", "text": "Script Robert Jay Lifton's 8 criteria of thought reform", "done": false },
+      { "id": "sub-v2-2", "text": "Record 4K A-Roll explaining isolation & cognitive dissonance", "done": false },
+      { "id": "sub-v2-3", "text": "Create custom 2D animated transition diagrams", "done": false },
+      { "id": "sub-v2-4", "text": "Design high-CTR thumbnail with glitch effect & warning badge", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-3",
+    "title": "🚨 The 8 Stages of Joining a Cult",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Cults", "Psychology", "TopCTR"],
+    "description": "Exposing love bombing, reality control, financial extraction, and ideological lock-in. Real survivor testimonies and deconstruction.",
+    "subtasks": [
+      { "id": "sub-v3-1", "text": "Breakdown the BITE Model of mind control", "done": false },
+      { "id": "sub-v3-2", "text": "Draft script outlining initial lure vs final isolation", "done": false },
+      { "id": "sub-v3-3", "text": "Design high-CTR thumbnail with blurred faces & dramatic spotlight", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-4",
+    "title": "🎯 The 6 Stages of Becoming a Hitman",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["StagesOf", "DarkHistory", "TopCTR"],
+    "description": "Exploration of the psychological desensitization, dark web contract markets, weapon tradecraft, and legal consequences of contract killing.",
+    "subtasks": [
+      { "id": "sub-v4-1", "text": "Script criminological profiles & FBI sting case studies", "done": false },
+      { "id": "sub-v4-2", "text": "Source dark noir soundscapes & cinematic B-roll", "done": false },
+      { "id": "sub-v4-3", "text": "Create thumbnail with red laser scope crosshair aesthetic", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-5",
+    "title": "👑 The 7 Stages of Becoming a Dictator",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["History", "Politics", "TopCTR"],
+    "description": "How authoritarian regimes rise: economic instability, scapegoating, dismantling press freedom, purging rivals, and cult of personality.",
+    "subtasks": [
+      { "id": "sub-v5-1", "text": "Compare 20th century totalitarian power grabs", "done": false },
+      { "id": "sub-v5-2", "text": "Script dramatic 15-second opening hook", "done": false },
+      { "id": "sub-v5-3", "text": "Design thumbnail with propaganda poster visual style", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-6",
+    "title": "🕵️ The 8 Stages of Getting Pulled Into a Conspiracy",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Conspiracies", "Psychology", "TopCTR"],
+    "description": "The rabbit hole effect: algorithm rabbit holes, confirmation bias, feeling like an enlightened insider, and total alienation from family.",
+    "subtasks": [
+      { "id": "sub-v6-1", "text": "Map the 8 psychological gateway stages", "done": false },
+      { "id": "sub-v6-2", "text": "Record video with dark room red string conspiracy board B-roll", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-7",
+    "title": "🧬 The Theory That Humans Were Engineered",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Conspiracies", "SciFi", "TopCTR"],
+    "description": "Ancient astronaut theories, chromosome 2 fusion mystery, Sumerian Anunnaki tablets, and genetic anomaly debates.",
+    "subtasks": [
+      { "id": "sub-v7-1", "text": "Research genetic anomalies and ancient texts", "done": false },
+      { "id": "sub-v7-2", "text": "Produce cinematic 3D DNA & celestial visual assets", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-8",
+    "title": "🔮 The Conspiracy Theory That Predicted the Future",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Conspiracies", "Predictions", "TopCTR"],
+    "description": "Deep-dive into declassified government programs (Project MKUltra, Operation Northwoods, PRISM) that sounded like wild fiction until proven real.",
+    "subtasks": [
+      { "id": "sub-v8-1", "text": "Gather declassified CIA FOIA PDF documents", "done": false },
+      { "id": "sub-v8-2", "text": "Highlight red-stamped 'TOP SECRET' document graphics", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-9",
+    "title": "♟️ The 7 Stages of Becoming a Criminal Mastermind",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Crime", "Psychology", "TopCTR"],
+    "description": "From petty opportunism to complex multi-million dollar heist architecture, laundering, and counter-surveillance evasion.",
+    "subtasks": [
+      { "id": "sub-v9-1", "text": "Break down Antwerp Diamond Heist planning steps", "done": false },
+      { "id": "sub-v9-2", "text": "Design blueprint-themed thumbnail with gold vault graphic", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-10",
+    "title": "⏳ The Theory That Time Travelers Are Among Us",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Mysteries", "TimeTravel", "TopCTR"],
+    "description": "The John Titor saga, the Cape Scott time traveler photograph, vintage phone sightings, and theoretical physics wormholes.",
+    "subtasks": [
+      { "id": "sub-v10-1", "text": "Analyze historical photographs with modern artifacts", "done": false },
+      { "id": "sub-v10-2", "text": "Consult theoretical physics timeline paradoxes", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-11",
+    "title": "👤 The 7 Stages of Losing Your Identity",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Psychology", "Philosophy", "TopCTR"],
+    "description": "How chronic burnout, people-pleasing, social media algorithms, and institutional conditioning erase individual authentic selfhood.",
+    "subtasks": [
+      { "id": "sub-v11-1", "text": "Write philosophical and psychological breakdown", "done": false },
+      { "id": "sub-v11-2", "text": "Create minimalist high-contrast emotional visual edit", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-12",
+    "title": "👁️ The Secret Society That Allegedly Controls Everything",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Conspiracies", "SecretSocieties", "TopCTR"],
+    "description": "Bilderberg Group, Bohemian Grove, Skull and Bones, and the historical Bavarian Illuminati: fact vs sensationalism.",
+    "subtasks": [
+      { "id": "sub-v12-1", "text": "Compile verifiable member lists and meeting locations", "done": false },
+      { "id": "sub-v12-2", "text": "Design thumbnail with glowing eye / geometric seal", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-13",
+    "title": "🧙 The 8 Stages of Becoming a Cult Leader",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["StagesOf", "Cults", "TopCTR"],
+    "description": "Narcissistic inflation, creating apocalyptic urgency, claiming divine revelation, demanding absolute obedience, and institutional paranoia.",
+    "subtasks": [
+      { "id": "sub-v13-1", "text": "Analyze Jim Jones, David Koresh, and Heaven's Gate psychology", "done": false },
+      { "id": "sub-v13-2", "text": "Record A-roll talking points with high-drama lighting", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-14",
+    "title": "🛸 The Dark Conspiracy Behind Area 51",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Area51", "Conspiracies", "TopCTR"],
+    "description": "Beyond aliens: stealth aircraft prototyping (SR-71, F-117, B-2), radar deception, toxic waste burning, and Groom Lake secrecy.",
+    "subtasks": [
+      { "id": "sub-v14-1", "text": "Collect satellite imagery and flight tracker data", "done": false },
+      { "id": "sub-v14-2", "text": "Interview/quote declassified test pilots and engineers", "done": false }
+    ]
+  },
+  {
+    "id": "vault-top-15",
+    "title": "⛓️ The 7 Stages of Becoming a Prison Gang Leader",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "urgent",
+    "status": "todo",
+    "tags": ["Crime", "StagesOf", "TopCTR"],
+    "description": "Survival economics behind bars: contraband smuggling, racial faction politics, enforcing prison yard discipline, and running outside rackets.",
+    "subtasks": [
+      { "id": "sub-v15-1", "text": "Breakdown maximum security penitentiary dynamics", "done": false },
+      { "id": "sub-v15-2", "text": "Design thumbnail with barbwire and stark cell shadow", "done": false }
+    ]
+  },
+  {
+    "id": "vault-stages-1",
+    "title": "💰 The 6 Stages of Becoming a Billionaire",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["StagesOf", "Business", "Wealth"],
+    "description": "Product-market fit, equity leverage, network monopoly, venture financing, holding structures, and political lobbying.",
+    "subtasks": [{ "id": "sub-st1", "text": "Outline 6 wealth compounding thresholds", "done": false }]
+  },
+  {
+    "id": "vault-stages-2",
+    "title": "🕵️ The 7 Stages of Becoming a Secret Agent",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["StagesOf", "Espionage", "Military"],
+    "description": "Recruitment vetting, tradecraft training at The Farm, dead drops, counter-surveillance, and cover identity maintenance.",
+    "subtasks": [{ "id": "sub-st2", "text": "Research CIA/MI6 operative recruitment pipelines", "done": false }]
+  },
+  {
+    "id": "vault-stages-3",
+    "title": "💻 The 7 Stages of Becoming a Cybercriminal",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["StagesOf", "Hacking", "Cybersecurity"],
+    "description": "Script kiddie exploration, dark web forums, zero-day exploits, ransomware syndicates, crypto tumbling, and international extradition.",
+    "subtasks": [{ "id": "sub-st3", "text": "Breakdown ransomware-as-a-service business model", "done": false }]
+  },
+  {
+    "id": "vault-consp-1",
+    "title": "🧩 The Mandela Effect: Are We Remembering a Different Reality?",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["Conspiracies", "MindBending", "Viral"],
+    "description": "Berenstain Bears, Monopoly man monocle, Fruit of the Loom cornucopia: confabulation neuroscience vs multiverse theory.",
+    "subtasks": [{ "id": "sub-co1", "text": "Curate top 10 most eerie Mandela Effect visual examples", "done": false }]
+  },
+  {
+    "id": "vault-consp-2",
+    "title": "🖥️ The Simulation Theory: What If Reality Isn't Real?",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["Simulation", "Philosophy", "Physics"],
+    "description": "Nick Bostrom's trilemma, quantum double-slit rendering limits, Planck length resolution, and glitch in the matrix accounts.",
+    "subtasks": [{ "id": "sub-co2", "text": "Explain quantum observation and pixelated reality physics", "done": false }]
+  },
+  {
+    "id": "vault-dark-1",
+    "title": "🗡️ The 7 Stages of Becoming a Medieval Assassin",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["DarkHistory", "History", "Documentary"],
+    "description": "The Hashashin of Alamut castle: indoctrination, poison crafting, disguise mastery, stealth infiltration, and political destabilization.",
+    "subtasks": [{ "id": "sub-dh1", "text": "Research historical Hassan-i Sabbah order manuscripts", "done": false }]
+  },
+  {
+    "id": "vault-dark-2",
+    "title": "⚔️ The 8 Stages of a Viking Raid",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["DarkHistory", "Vikings", "Warfare"],
+    "description": "Longship navigation, coastal surveillance, shock-and-awe landing, monastery looting, slave taking, and escape before army retaliation.",
+    "subtasks": [{ "id": "sub-dh2", "text": "Create historical battlefield animated map graphics", "done": false }]
+  },
+  {
+    "id": "vault-myst-1",
+    "title": "👻 The 7 Creepiest Unsolved Mysteries in History",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["Mysteries", "Unsolved", "Creepy"],
+    "description": "Dyatlov Pass incident, Hinterkaifeck murders, Voynich manuscript, Somerton Man, and Mary Celeste ghost ship.",
+    "subtasks": [{ "id": "sub-my1", "text": "Curate high-resolution forensic and crime scene archival photos", "done": false }]
+  },
+  {
+    "id": "vault-whatif-1",
+    "title": "🌐 What If the Internet Suddenly Disappeared?",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["WhatIf", "Tech", "Collapse"],
+    "description": "Minute-by-minute global timeline: Day 1 banking collapse, Day 7 food supply chain disruption, Month 1 power grid failures and rebuilding.",
+    "subtasks": [{ "id": "sub-wi1", "text": "Simulate economic infrastructure dependencies without DNS/BGP", "done": false }]
+  },
+  {
+    "id": "vault-whatif-2",
+    "title": "🌍 What If Earth Stopped Spinning?",
+    "format": "longform",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "tags": ["WhatIf", "Science", "Space"],
+    "description": "Atmospheric 1000mph supersonic winds, massive oceanic tidal wave realignment to poles, 6-month scorching day / freezing night cycle.",
+    "subtasks": [{ "id": "sub-wi2", "text": "Create geographic projection maps showing polar ocean migration", "done": false }]
+  }
+]
