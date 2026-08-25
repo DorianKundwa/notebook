@@ -35,13 +35,42 @@
     </div>
   </div>
 
+  <!-- Desktop Native Window Titlebar (Active in Electron / PC App mode) -->
+  <div id="desktop-titlebar" class="desktop-titlebar hidden">
+    <div class="desktop-titlebar-left">
+      <svg class="desktop-app-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <rect x="112" y="48" width="288" height="416" rx="24" fill="#1E293B"/>
+        <rect x="112" y="48" width="40" height="416" fill="#0F172A" rx="16"/>
+        <path d="M300 48 V 220 L 270 190 L 240 220 V 48 Z" fill="#E11D48"/>
+        <rect x="180" y="140" width="170" height="12" rx="6" fill="#475569"/>
+        <rect x="180" y="190" width="170" height="12" rx="6" fill="#475569"/>
+        <rect x="180" y="240" width="120" height="12" rx="6" fill="#475569"/>
+      </svg>
+      <span class="desktop-title-text">CreatorTask Studio — Desktop Edition</span>
+    </div>
+    <div class="desktop-titlebar-actions">
+      <button id="btn-win-min" class="win-btn" title="Minimize">─</button>
+      <button id="btn-win-max" class="win-btn" title="Maximize">□</button>
+      <button id="btn-win-close" class="win-btn close" title="Close">✕</button>
+    </div>
+  </div>
+
   <div class="app-container">
     <!-- Header -->
     <header class="app-header">
       <div class="brand-section">
-        <div class="logo-badge">
-          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        <div class="logo-badge" title="CreatorTask Studio Notebook">
+          <svg class="notebook-brand-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <!-- Main Cover -->
+            <rect x="112" y="48" width="288" height="416" rx="24" fill="#1E293B"/>
+            <!-- Binding Edge -->
+            <rect x="112" y="48" width="40" height="416" fill="#0F172A" rx="16"/>
+            <!-- Bookmark -->
+            <path d="M300 48 V 220 L 270 190 L 240 220 V 48 Z" fill="#E11D48"/>
+            <!-- Text/Code Lines -->
+            <rect x="180" y="140" width="170" height="12" rx="6" fill="#475569"/>
+            <rect x="180" y="190" width="170" height="12" rx="6" fill="#475569"/>
+            <rect x="180" y="240" width="120" height="12" rx="6" fill="#475569"/>
           </svg>
         </div>
         <div class="brand-info">

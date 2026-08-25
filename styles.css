@@ -313,28 +313,96 @@ body {
   box-shadow: 0 0 6px currentColor;
 }
 
-.logo-badge {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  background: var(--accent-gradient);
+/* Desktop Native Window Title Bar (Electron mode) */
+.desktop-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+  background: rgba(10, 14, 26, 0.98);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0 0.75rem 0 1rem;
+  user-select: none;
+  -webkit-app-region: drag;
+  z-index: 1000;
+  position: sticky;
+  top: 0;
+}
+
+.desktop-titlebar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.desktop-app-icon {
+  width: 18px;
+  height: 18px;
+  -webkit-app-region: no-drag;
+}
+
+.desktop-title-text {
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.desktop-titlebar-actions {
+  display: flex;
+  align-items: center;
+  -webkit-app-region: no-drag;
+}
+
+.win-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  width: 38px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.win-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.win-btn.close:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+.logo-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(236, 72, 153, 0.25) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 22px rgba(99, 102, 241, 0.35);
   flex-shrink: 0;
-  transition: transform var(--transition-bounce);
+  transition: transform var(--transition-bounce), box-shadow var(--transition-bounce);
+  padding: 4px;
 }
 
 .logo-badge:hover {
-  transform: rotate(10deg) scale(1.06);
+  transform: rotate(8deg) scale(1.08);
+  box-shadow: 0 8px 28px rgba(236, 72, 153, 0.5);
 }
 
-.logo-icon {
-  width: 24px;
-  height: 24px;
-  color: #fff;
-  fill: #fff;
+.notebook-brand-svg {
+  width: 38px;
+  height: 38px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 
 .brand-title {

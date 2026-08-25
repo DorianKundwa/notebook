@@ -567,6 +567,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     navigator.serviceWorker.register("/sw.js").catch(() => {});
   }
 
+  // Desktop Electron Native Window Controls
+  const desktopTitlebar = document.getElementById("desktop-titlebar");
+  const btnWinMin = document.getElementById("btn-win-min");
+  const btnWinMax = document.getElementById("btn-win-max");
+  const btnWinClose = document.getElementById("btn-win-close");
+
+  if (window.desktopApp && window.desktopApp.isDesktop) {
+    desktopTitlebar.classList.remove("hidden");
+    document.body.classList.add("desktop-app-running");
+
+    if (btnWinMin) btnWinMin.addEventListener("click", () => window.desktopApp.minimize());
+    if (btnWinMax) btnWinMax.addEventListener("click", () => window.desktopApp.maximize());
+    if (btnWinClose) btnWinClose.addEventListener("click", () => window.desktopApp.close());
+  }
+
   // DOM Elements
   const searchInput = document.getElementById("search-input");
   const clearSearchBtn = document.getElementById("btn-clear-search");

@@ -1,12 +1,14 @@
 {
   "name": "creatortask-studio",
   "version": "1.0.0",
-  "description": "Production-ready task management and YouTube video idea organizer for creators",
-  "main": "server.js",
+  "description": "Production-ready task management and YouTube video idea organizer for creators with local Qwen 2.5 AI",
+  "main": "main.js",
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
+    "app": "electron .",
+    "setup": "cmd /c setup.bat",
     "test": "node tests/api.test.js"
   },
   "keywords": [
@@ -16,6 +18,8 @@
     "creator",
     "kanban",
     "productivity",
+    "electron",
+    "desktop-app",
     "pwa"
   ],
   "author": "CreatorTask Studio",
@@ -24,5 +28,8 @@
     "compression": "^1.7.5",
     "cors": "^2.8.5",
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "electron": "^32.0.0"
   }
 }
