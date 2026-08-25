@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CreatorTask Studio — Task & Idea Management for Creators</title>
-  <meta name="description" content="A modern, sleek task tracker and YouTube video idea organizer with checklists, Kanban boards, and progress analytics.">
+  <meta name="description" content="Production-ready task tracker and YouTube video idea organizer with checklists, Kanban boards, REST API sync, and focus timer.">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6366f1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <!-- Canvas Confetti CDN with fallback in JS -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -17,6 +19,20 @@
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
     <div class="glow-orb orb-3"></div>
+  </div>
+
+  <!-- Persistent Focus Timer Bar (Hidden when inactive) -->
+  <div id="focus-timer-bar" class="focus-timer-bar hidden">
+    <div class="timer-display-group">
+      <span class="timer-pulse-dot"></span>
+      <span class="timer-mode-label" id="timer-mode-name">Scripting Focus</span>
+      <span class="timer-countdown" id="timer-digits">25:00</span>
+    </div>
+    <div class="timer-controls">
+      <button id="btn-timer-toggle" class="btn-timer-action">Pause</button>
+      <button id="btn-timer-reset" class="btn-timer-action secondary">Reset</button>
+      <button id="btn-timer-close" class="btn-timer-action close" title="Hide timer">✕</button>
+    </div>
   </div>
 
   <div class="app-container">
@@ -29,19 +45,34 @@
           </svg>
         </div>
         <div class="brand-info">
-          <h1 class="brand-title">CreatorTask <span class="gradient-text">Studio</span></h1>
+          <div class="title-sync-row">
+            <h1 class="brand-title">CreatorTask <span class="gradient-text">Studio</span></h1>
+            <div id="sync-indicator" class="sync-badge connected" title="Database Connected">
+              <span class="sync-dot"></span>
+              <span id="sync-text">Cloud Synced</span>
+            </div>
+          </div>
           <p class="brand-subtitle">Plan video ideas, track production stages & check off completed tasks</p>
         </div>
       </div>
 
       <div class="header-actions">
+        <button id="btn-focus-timer-trigger" class="btn btn-secondary" title="Open 25-minute scriptwriting Pomodoro timer (Shortcut: T)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          Focus Timer
+        </button>
+
         <button id="btn-quick-idea" class="btn btn-secondary" title="Get inspiration for your next YouTube video">
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
           </svg>
           Idea Spark
         </button>
-        <button id="btn-open-add-task" class="btn btn-primary">
+
+        <button id="btn-open-add-task" class="btn btn-primary" title="Create a new task (Shortcut: N)">
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -111,18 +142,17 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="search-input" placeholder="Search tasks, video ideas, tags..." autocomplete="off">
+        <input type="text" id="search-input" placeholder="Search tasks, video ideas, tags (Press '/' to focus)..." autocomplete="off">
         <button id="btn-clear-search" class="clear-btn hidden" aria-label="Clear search">✕</button>
       </div>
 
-      <!-- Category Filter Pills -->
-      <div class="category-filters" id="category-filters">
-        <button class="filter-pill active" data-category="all">All</button>
-        <button class="filter-pill" data-category="youtube">🎬 YouTube Ideas</button>
-        <button class="filter-pill" data-category="script">📝 Scripting</button>
-        <button class="filter-pill" data-category="thumbnail">🎨 Thumbnails</button>
-        <button class="filter-pill" data-category="editing">✂️ Editing</button>
-        <button class="filter-pill" data-category="general">⚡ General</button>
+      <!-- Format Filter Pills -->
+      <div class="category-filters" id="format-filters">
+        <button class="filter-pill active" data-format="all">All Formats</button>
+        <button class="filter-pill" data-format="longform">🎬 Long-form</button>
+        <button class="filter-pill" data-format="shorts">📱 Shorts/Reels</button>
+        <button class="filter-pill" data-format="sponsor">🤝 Sponsor</button>
+        <button class="filter-pill" data-format="podcast">🎙️ Podcast</button>
       </div>
 
       <!-- Priority Filter & View Mode Switcher -->
@@ -136,7 +166,7 @@
         </select>
 
         <div class="view-switch-group">
-          <button id="btn-view-board" class="view-btn active" title="Kanban Board View">
+          <button id="btn-view-board" class="view-btn active" title="Kanban Board View (Shortcut: B)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="7" height="18" rx="1"></rect>
               <rect x="14" y="3" width="7" height="10" rx="1"></rect>
@@ -144,7 +174,7 @@
             </svg>
             Board
           </button>
-          <button id="btn-view-list" class="view-btn" title="Compact List Checklist View">
+          <button id="btn-view-list" class="view-btn" title="Compact List Checklist View (Shortcut: L)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="8" y1="6" x2="21" y2="6"></line>
               <line x1="8" y1="12" x2="21" y2="12"></line>
@@ -252,13 +282,15 @@
     <!-- Footer with Helper Actions & Backup -->
     <footer class="app-footer">
       <div class="footer-left">
-        <span class="footer-tip">💡 <strong>Pro-Tip:</strong> Click any card to edit details & manage sub-steps. Toggle the checkbox to complete!</span>
+        <span class="footer-tip">💡 <strong>Pro-Tip:</strong> Press <kbd class="kbd-badge">?</kbd> for keyboard shortcuts. Press <kbd class="kbd-badge">T</kbd> to launch Pomodoro timer.</span>
       </div>
       <div class="footer-right">
-        <button id="btn-export-data" class="btn-subtle" title="Export all tasks as JSON file">Export Data</button>
+        <button id="btn-export-markdown" class="btn-subtle" title="Export all scripts and tasks as Markdown for Notion / Obsidian">Export Markdown</button>
+        <button id="btn-export-data" class="btn-subtle" title="Export all tasks as JSON file">Export JSON</button>
         <button id="btn-import-trigger" class="btn-subtle" title="Import JSON backup">Import</button>
         <input type="file" id="file-import" accept=".json" class="hidden">
         <button id="btn-reset-sample" class="btn-subtle" title="Reload sample creator tasks">Reset Sample Data</button>
+        <button id="btn-open-shortcuts" class="btn-subtle" title="View keyboard shortcuts">Shortcuts (?)</button>
       </div>
     </footer>
   </div>
@@ -280,8 +312,19 @@
           <input type="text" id="task-title" class="form-input" placeholder="e.g. 10 AI Tools That Will Blow Your Mind (2026)" required autofocus>
         </div>
 
-        <!-- Row: Category & Priority & Status -->
-        <div class="form-row">
+        <!-- Row: Format & Category & Priority & Status -->
+        <div class="form-row form-row-4">
+          <div class="form-group">
+            <label for="task-format" class="form-label">Video Format</label>
+            <select id="task-format" class="form-input custom-select">
+              <option value="longform">🎬 Long-form</option>
+              <option value="shorts">📱 Shorts/Reels</option>
+              <option value="sponsor">🤝 Sponsorship</option>
+              <option value="podcast">🎙️ Podcast</option>
+              <option value="general">⚡ General</option>
+            </select>
+          </div>
+
           <div class="form-group">
             <label for="task-category" class="form-label">Category</label>
             <select id="task-category" class="form-input custom-select">
@@ -328,14 +371,23 @@
         <!-- Notes / Script Outline / Description -->
         <div class="form-group">
           <label for="task-desc" class="form-label">Notes & Outline / Hook Description</label>
-          <textarea id="task-desc" class="form-input form-textarea" rows="3" placeholder="Key talking points, thumbnail idea hook, links, gear needed..."></textarea>
+          <textarea id="task-desc" class="form-input form-textarea" rows="3" placeholder="Key talking points, thumbnail hook idea, links, gear needed..."></textarea>
         </div>
 
         <!-- Subtasks / Production Checklist -->
         <div class="form-group">
           <div class="subtask-header-row">
-            <label class="form-label">Production Steps / Subtasks</label>
-            <button type="button" id="btn-load-yt-template" class="btn-link-action">+ Auto-Fill YouTube Steps</button>
+            <label class="form-label">Production Steps / Milestones</label>
+            <div class="template-selector-group">
+              <span class="template-label">Preset:</span>
+              <select id="select-preset-template" class="custom-select template-dropdown">
+                <option value="">Load Preset...</option>
+                <option value="longform">🎬 Long-form Video (8 steps)</option>
+                <option value="shorts">📱 Shorts / Reels (4 steps)</option>
+                <option value="sponsor">🤝 Sponsored Segment (4 steps)</option>
+                <option value="podcast">🎙️ Podcast Episode (6 steps)</option>
+              </select>
+            </div>
           </div>
           <div id="subtasks-container" class="subtasks-input-list">
             <!-- Dynamic subtask inputs -->
@@ -379,6 +431,50 @@
 
       <div id="spark-cards-container" class="spark-ideas-grid">
         <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Keyboard Shortcuts Helper -->
+  <div id="modal-shortcuts" class="modal-overlay hidden" aria-hidden="true" role="dialog">
+    <div class="modal-card modal-shortcuts-card">
+      <div class="modal-header">
+        <h2 class="modal-heading">⚡ Keyboard Shortcuts</h2>
+        <button id="btn-close-shortcuts" class="modal-close" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="shortcuts-list-body">
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Create New Task / Idea</span>
+          <kbd class="kbd-badge">N</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Focus Search Input</span>
+          <kbd class="kbd-badge">/</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Switch to Kanban Board View</span>
+          <kbd class="kbd-badge">B</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Switch to Checklist View</span>
+          <kbd class="kbd-badge">L</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Toggle Scripting Focus Timer</span>
+          <kbd class="kbd-badge">T</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Open Idea Sparks Generator</span>
+          <kbd class="kbd-badge">I</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Close Dialog / Clear Search</span>
+          <kbd class="kbd-badge">Esc</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Open this Shortcuts Guide</span>
+          <kbd class="kbd-badge">?</kbd>
+        </div>
       </div>
     </div>
   </div>
