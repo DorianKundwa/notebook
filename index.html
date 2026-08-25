@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorTask Studio — Task & Idea Management for Creators</title>
+  <meta name="description" content="A modern, sleek task tracker and YouTube video idea organizer with checklists, Kanban boards, and progress analytics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Canvas Confetti CDN with fallback in JS -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <div class="app-background">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="logo-badge">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1 class="brand-title">CreatorTask <span class="gradient-text">Studio</span></h1>
+          <p class="brand-subtitle">Plan video ideas, track production stages & check off completed tasks</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-quick-idea" class="btn btn-secondary" title="Get inspiration for your next YouTube video">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+          </svg>
+          Idea Spark
+        </button>
+        <button id="btn-open-add-task" class="btn btn-primary">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          New Task / Idea
+        </button>
+      </div>
+    </header>
+
+    <!-- Stats & Progress Dashboard -->
+    <section class="stats-grid" aria-label="Progress statistics">
+      <div class="stat-card">
+        <div class="stat-icon-wrapper purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Total Ideas & Tasks</span>
+          <span id="stat-total" class="stat-value">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">In Production</span>
+          <span id="stat-in-progress" class="stat-value">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper emerald">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Completed & Published</span>
+          <span id="stat-completed" class="stat-value">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card progress-overview-card">
+        <div class="progress-info-row">
+          <span class="stat-label">Overall Completion</span>
+          <span id="stat-percent" class="stat-percent-value">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="stat-progress-bar" class="progress-fill" style="width: 0%"></div>
+        </div>
+        <span id="stat-subtasks-summary" class="subtasks-summary-text">0/0 subtasks cleared</span>
+      </div>
+    </section>
+
+    <!-- Controls Bar: View Toggle, Filters, Search -->
+    <section class="controls-bar">
+      <!-- Search Input -->
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="search-input" placeholder="Search tasks, video ideas, tags..." autocomplete="off">
+        <button id="btn-clear-search" class="clear-btn hidden" aria-label="Clear search">✕</button>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-filters" id="category-filters">
+        <button class="filter-pill active" data-category="all">All</button>
+        <button class="filter-pill" data-category="youtube">🎬 YouTube Ideas</button>
+        <button class="filter-pill" data-category="script">📝 Scripting</button>
+        <button class="filter-pill" data-category="thumbnail">🎨 Thumbnails</button>
+        <button class="filter-pill" data-category="editing">✂️ Editing</button>
+        <button class="filter-pill" data-category="general">⚡ General</button>
+      </div>
+
+      <!-- Priority Filter & View Mode Switcher -->
+      <div class="view-controls">
+        <select id="priority-filter" class="custom-select" title="Filter by priority">
+          <option value="all">All Priorities</option>
+          <option value="urgent">🔥 Urgent</option>
+          <option value="high">🔴 High</option>
+          <option value="medium">🟡 Medium</option>
+          <option value="low">🟢 Low</option>
+        </select>
+
+        <div class="view-switch-group">
+          <button id="btn-view-board" class="view-btn active" title="Kanban Board View">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="18" rx="1"></rect>
+              <rect x="14" y="3" width="7" height="10" rx="1"></rect>
+              <rect x="14" y="17" width="7" height="4" rx="1"></rect>
+            </svg>
+            Board
+          </button>
+          <button id="btn-view-list" class="view-btn" title="Compact List Checklist View">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+            List
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Area: Board View & List View -->
+    <main class="main-content">
+      <!-- Kanban Board View -->
+      <div id="board-view" class="board-container">
+        <!-- Column 1: Backlog / Video Ideas -->
+        <div class="kanban-column" data-status="todo">
+          <div class="column-header">
+            <div class="column-title-group">
+              <span class="column-dot dot-todo"></span>
+              <h2 class="column-title">Ideas & To Do</h2>
+              <span class="column-badge" id="count-todo">0</span>
+            </div>
+            <button class="btn-quick-add" data-status="todo" title="Add idea to this column">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="task-list" id="list-todo" data-status="todo">
+            <!-- Dynamic task cards inserted here -->
+          </div>
+        </div>
+
+        <!-- Column 2: In Progress / In Production -->
+        <div class="kanban-column" data-status="in-progress">
+          <div class="column-header">
+            <div class="column-title-group">
+              <span class="column-dot dot-progress"></span>
+              <h2 class="column-title">In Production</h2>
+              <span class="column-badge" id="count-in-progress">0</span>
+            </div>
+            <button class="btn-quick-add" data-status="in-progress" title="Add task to production">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="task-list" id="list-in-progress" data-status="in-progress">
+            <!-- Dynamic task cards inserted here -->
+          </div>
+        </div>
+
+        <!-- Column 3: Completed / Published -->
+        <div class="kanban-column" data-status="done">
+          <div class="column-header">
+            <div class="column-title-group">
+              <span class="column-dot dot-done"></span>
+              <h2 class="column-title">Done & Published</h2>
+              <span class="column-badge" id="count-done">0</span>
+            </div>
+            <button id="btn-clear-completed" class="btn-text-action" title="Clear all completed tasks">Clear Done</button>
+          </div>
+          <div class="task-list" id="list-done" data-status="done">
+            <!-- Dynamic task cards inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- List / Focus Checklist View -->
+      <div id="list-view" class="list-container hidden">
+        <div class="list-header-bar">
+          <h2>Task Checklist</h2>
+          <div class="list-sort-options">
+            <span class="sort-label">Sort by:</span>
+            <button class="sort-btn active" data-sort="created">Newest</button>
+            <button class="sort-btn" data-sort="priority">Priority</button>
+            <button class="sort-btn" data-sort="due">Due Date</button>
+          </div>
+        </div>
+        <div id="checklist-tasks" class="checklist-items-wrapper">
+          <!-- Dynamic checklist items inserted here -->
+        </div>
+      </div>
+
+      <!-- Empty State Container -->
+      <div id="empty-state" class="empty-state hidden">
+        <div class="empty-illustration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M8 12h8M12 8v8"></path>
+          </svg>
+        </div>
+        <h3 class="empty-title">No tasks or video ideas found</h3>
+        <p class="empty-desc">Try clearing your search/filter or create your first exciting idea!</p>
+        <button id="btn-empty-add" class="btn btn-primary">Create New Idea</button>
+      </div>
+    </main>
+
+    <!-- Footer with Helper Actions & Backup -->
+    <footer class="app-footer">
+      <div class="footer-left">
+        <span class="footer-tip">💡 <strong>Pro-Tip:</strong> Click any card to edit details & manage sub-steps. Toggle the checkbox to complete!</span>
+      </div>
+      <div class="footer-right">
+        <button id="btn-export-data" class="btn-subtle" title="Export all tasks as JSON file">Export Data</button>
+        <button id="btn-import-trigger" class="btn-subtle" title="Import JSON backup">Import</button>
+        <input type="file" id="file-import" accept=".json" class="hidden">
+        <button id="btn-reset-sample" class="btn-subtle" title="Reload sample creator tasks">Reset Sample Data</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- MODAL: Add / Edit Task -->
+  <div id="modal-task" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-title" class="modal-heading">Create New Task / Video Idea</h2>
+        <button id="btn-close-modal" class="modal-close" aria-label="Close dialog">✕</button>
+      </div>
+
+      <form id="task-form" class="modal-body">
+        <input type="hidden" id="task-id">
+
+        <!-- Title -->
+        <div class="form-group">
+          <label for="task-title" class="form-label">Title / Video Concept <span class="required">*</span></label>
+          <input type="text" id="task-title" class="form-input" placeholder="e.g. 10 AI Tools That Will Blow Your Mind (2026)" required autofocus>
+        </div>
+
+        <!-- Row: Category & Priority & Status -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-category" class="form-label">Category</label>
+            <select id="task-category" class="form-input custom-select">
+              <option value="youtube">🎬 YouTube Idea</option>
+              <option value="script">📝 Scripting</option>
+              <option value="thumbnail">🎨 Thumbnail / Design</option>
+              <option value="editing">✂️ Editing / Audio</option>
+              <option value="general">⚡ General Task</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="task-priority" class="form-label">Priority</label>
+            <select id="task-priority" class="form-input custom-select">
+              <option value="urgent">🔥 Urgent</option>
+              <option value="high">🔴 High</option>
+              <option value="medium" selected>🟡 Medium</option>
+              <option value="low">🟢 Low</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="task-status" class="form-label">Status</label>
+            <select id="task-status" class="form-input custom-select">
+              <option value="todo">Ideas & To Do</option>
+              <option value="in-progress">In Production</option>
+              <option value="done">Done & Published</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Target Due Date & YouTube Metrics / Tag -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-due-date" class="form-label">Target Publish / Due Date</label>
+            <input type="date" id="task-due-date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="task-tags" class="form-label">Tags / Keywords (comma separated)</label>
+            <input type="text" id="task-tags" class="form-input" placeholder="e.g. AI, Tutorial, Tech">
+          </div>
+        </div>
+
+        <!-- Notes / Script Outline / Description -->
+        <div class="form-group">
+          <label for="task-desc" class="form-label">Notes & Outline / Hook Description</label>
+          <textarea id="task-desc" class="form-input form-textarea" rows="3" placeholder="Key talking points, thumbnail idea hook, links, gear needed..."></textarea>
+        </div>
+
+        <!-- Subtasks / Production Checklist -->
+        <div class="form-group">
+          <div class="subtask-header-row">
+            <label class="form-label">Production Steps / Subtasks</label>
+            <button type="button" id="btn-load-yt-template" class="btn-link-action">+ Auto-Fill YouTube Steps</button>
+          </div>
+          <div id="subtasks-container" class="subtasks-input-list">
+            <!-- Dynamic subtask inputs -->
+          </div>
+          <button type="button" id="btn-add-subtask-row" class="btn-subtle-add">+ Add Subtask Step</button>
+        </div>
+
+        <!-- Modal Footer Buttons -->
+        <div class="modal-footer">
+          <button type="button" id="btn-delete-task" class="btn btn-danger hidden">Delete</button>
+          <div class="modal-actions-right">
+            <button type="button" id="btn-cancel-modal" class="btn btn-secondary">Cancel</button>
+            <button type="submit" id="btn-save-task" class="btn btn-primary">Save Task</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: YouTube Idea Spark Generator -->
+  <div id="modal-spark" class="modal-overlay hidden" aria-hidden="true" role="dialog">
+    <div class="modal-card modal-spark-card">
+      <div class="modal-header">
+        <div class="spark-header-title">
+          <span class="spark-emoji">💡</span>
+          <div>
+            <h2 class="modal-heading">YouTube Video Idea Sparks</h2>
+            <p class="modal-subheading">Select any viral hook or concept to turn it into an active task checklist!</p>
+          </div>
+        </div>
+        <button id="btn-close-spark" class="modal-close" aria-label="Close dialog">✕</button>
+      </div>
+
+      <div class="spark-categories" id="spark-niche-tabs">
+        <button class="spark-tab active" data-niche="tech">💻 Tech & Coding</button>
+        <button class="spark-tab" data-niche="productivity">⚡ Productivity</button>
+        <button class="spark-tab" data-niche="gaming">🎮 Gaming & Streaming</button>
+        <button class="spark-tab" data-niche="business">📈 Business & Finance</button>
+        <button class="spark-tab" data-niche="creative">🎨 Creative & Design</button>
+      </div>
+
+      <div id="spark-cards-container" class="spark-ideas-grid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
