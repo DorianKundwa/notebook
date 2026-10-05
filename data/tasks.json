@@ -1,11 +1,45 @@
 [
   {
+    "id": "task-1787679805130-4b6i9n",
+    "title": "🤖⚡ Modern Web Development & AI Tools: Transforming B2B Sales and Marketing",
+    "category": "youtube",
+    "priority": "high",
+    "status": "todo",
+    "format": "longform",
+    "dueDate": "",
+    "tags": [
+      "AI",
+      "WebDevelopment",
+      "BusinessTech"
+    ],
+    "description": "In this longform video, we’ll explore the future of web development, focusing on how AI tools like machine learning, natural language processing, and chatbots are changing the landscape of B2B sales and marketing. We’ll break down key concepts, showcase examples, and highlight how these tools can streamline processes, optimize campaigns, and improve overall customer engagement. Prepare to be amazed by the potential of AI in web development, and join us on this journey to the future of digital transformation.\n\n\n🎯 15-Sec Hook:\n🚀 Attention, business owners! Are you ready to revolutionize your web development game with the power of AI? Let’s dive into how modern AI tools can boost your B2B sales and marketing game! #AI #WebDevelopment #BusinessTech\n\n\n🎨 Thumbnail Concept:\nA dynamic, high-contrast image featuring futuristic AI and coding elements with a person's face smiling and looking at the screen, emphasizing the integration of these tools into modern web development.",
+    "subtasks": [
+      {
+        "id": "sub-1787679800372-4ziw",
+        "text": "Conduct research on the latest AI tools and their applications in web development.",
+        "done": false
+      },
+      {
+        "id": "sub-1787679800373-fqbm",
+        "text": "Create a demo video showcasing AI tools in action for B2B sales and marketing.",
+        "done": false
+      },
+      {
+        "id": "sub-1787679800373-k91a",
+        "text": "Interview industry experts and incorporate their insights into the video script.",
+        "done": false
+      }
+    ],
+    "createdAt": 1787679805130,
+    "updatedAt": 1787679805130
+  },
+  {
     "id": "task-1787677425983-0-54o88",
     "title": "The 7 Stages of Becoming a Mafia Boss",
     "format": "longform",
     "category": "youtube",
     "priority": "high",
-    "status": "todo",
+    "status": "done",
     "tags": [
       "SmartUpload",
       "ImportedIdea"
@@ -15,31 +49,31 @@
       {
         "id": "sub-1787677425983-0-1",
         "text": "Hook, Script & Angle",
-        "done": false
+        "done": true
       },
       {
         "id": "sub-1787677425983-0-2",
         "text": "Record A-Roll & B-Roll",
-        "done": false
+        "done": true
       },
       {
         "id": "sub-1787677425983-0-3",
         "text": "Edit & Sound Design",
-        "done": false
+        "done": true
       },
       {
         "id": "sub-1787677425983-0-4",
         "text": "Design High-CTR Thumbnail",
-        "done": false
+        "done": true
       },
       {
         "id": "sub-1787677425983-0-5",
         "text": "Publish & Community Post",
-        "done": false
+        "done": true
       }
     ],
     "createdAt": 1787677425983,
-    "updatedAt": 1787677425983
+    "updatedAt": 1787679132299
   },
   {
     "id": "task-1787677425983-1-7gn3y",
@@ -6879,7 +6913,7 @@
     "format": "longform",
     "category": "youtube",
     "priority": "urgent",
-    "status": "in-progress",
+    "status": "done",
     "dueDate": "2026-08-27",
     "tags": [
       "AI",
@@ -6906,21 +6940,21 @@
       {
         "id": "sub-1-4",
         "text": "Edit video with kinetic captions & SFX",
-        "done": false
+        "done": true
       },
       {
         "id": "sub-1-5",
         "text": "Design 3 thumbnail variations (A/B test)",
-        "done": false
+        "done": true
       },
       {
         "id": "sub-1-6",
         "text": "Publish & schedule community post",
-        "done": false
+        "done": true
       }
     ],
     "createdAt": 1787414495230,
-    "updatedAt": 1787673695230
+    "updatedAt": 1787679146938
   },
   {
     "id": "task-2",
@@ -6967,7 +7001,7 @@
     "format": "sponsor",
     "category": "script",
     "priority": "high",
-    "status": "in-progress",
+    "status": "done",
     "dueDate": "2026-08-29",
     "tags": [
       "Sponsor",
@@ -6989,16 +7023,16 @@
       {
         "id": "sub-3-3",
         "text": "Record segment with custom affiliate tracking link",
-        "done": false
+        "done": true
       },
       {
         "id": "sub-3-4",
         "text": "Send final video preview link for approval",
-        "done": false
+        "done": true
       }
     ],
     "createdAt": 1787587295231,
-    "updatedAt": 1787673695231
+    "updatedAt": 1787679150264
   },
   {
     "id": "task-4",
